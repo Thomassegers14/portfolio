@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200;0,300;0,400;0,700;1,200;1,300;1,400;1,700&family=Fira+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/master.css">
+
+<body>
+
+  <!-- Icon Bar (Sidebar - hidden on small screens) -->
+  <nav class="w3-bar-block w3-small w3-hide-small w3-center nav">
+    <!-- Avatar image in top left corner -->
+    <a href="#" class="nav__button">
+      <p>Home</p>
+    </a>
+    <a href="#about" class="nav__button">
+      <p>About</p>
+    </a>
+    <a href="#photos" class="nav__button">
+      <p>Works</p>
+    </a>
+    <a href="#contact" class="nav__button">
+      <p>Contact</p>
+    </a>
+  </nav>
+
+  <!-- Navbar on small screens (Hidden on medium and large screens) -->
+  <div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
+    <div class="w3-bar w3-black w3-hover-opacity-off w3-center w3-small">
+      <a href="#" class="w3-bar-item nav__button" style="width:25% !important">Home</a>
+      <a href="#about" class="w3-bar-item nav__button" style="width:25% !important">About</a>
+      <a href="#photos" class="w3-bar-item nav__button" style="width:25% !important">Photos</a>
+      <a href="#contact" class="w3-bar-item nav__button" style="width:25% !important">Contact</a>
+    </div>
+  </div>
+
+  <!-- Page Content -->
+  <div class="w3-padding-large" id="main">
+    <div class="h-boundingbox">
+
+    <!-- Header/Home -->
+    <header class="header" id="home">
+      <h1 class="header__title">Thomas Segers</h1>
+      <h2 class="header__subtitle">Data analysist & information designer</h2>
+    </header>
+
+    <!-- About Section -->
+    <div class="w3-content w3-padding-64 body" id="about">
+      <h2 class="body__title">About me</h2>
+      <p>Some text about me. Some text about me. I am lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+        ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+        consectetur
+        adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </p>
+      <h2 class="body__title">skills</h2>
+
+      <p class="skills__title">Adobe Photoshop</p>
+      <div class="skills__barWrapper">
+        <div class="skills__bar" style="width:95%"></div>
+      </div>
+      <p class="skills__title">Web Design</p>
+      <div class="skills__barWrapper">
+        <div class="skills__bar" style="width:85%"></div>
+      </div>
+      <p class="skills__title">Photoshop</p>
+      <div class="skills__barWrapper">
+        <div class="skills__bar" style="width:80%"></div>
+      </div><br>
+
+      <button class="button">
+        <i class="fa fa-download"></i> Download Resume
+      </button>
+
+    </div>
+
+    <!-- Portfolio Section -->
+    <div class="w3-padding-64 w3-content" id="photos">
+      <h2 class="body__title">My work</h2>
+
+      <!-- Grid for photos -->
+      <div class="works" style="margin:0 -16px">
+        <div class="works__work">
+          <h3>Hier komt een title</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+        </div>
+        <div class="works__work">
+          <h3>Hier komt een title</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+        </div>
+        <div class="works__work">
+          <h3>Hier komt een title</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+        </div>
+        <div class="works__work">
+          <h3>Hier komt een title</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+        </div>
+        <!-- End photo grid -->
+      </div>
+      <!-- End Portfolio Section -->
+    </div>
+
+    <!-- Contact Section -->
+    <div class="w3-padding-64 w3-content" id="contact">
+      <h2 class="body__title">Contact Me</h2>
+
+      <div class="contact">
+        <p><span>Location:</span> Based in Antwerp, Belgium</p>
+        <p><span>Phone:</span> +32495140366</p>
+        <p><span>Email:</span> segers.thomas@telenet.be</p>
+      </div>
+      <p class="contact__title">Let's get in touch. Send me a message:</p>
+
+      <form action="/action_page.php" target="_blank">
+        <p><input class="input__field" type="text" placeholder="Name" required name="Name"></p>
+        <p><input class="input__field" type="text" placeholder="Email" required name="Email"></p>
+        <p><input class="input__field" type="text" placeholder="Subject" required name="Subject"></p>
+        <p><input class="input__field" type="text" placeholder="Message" required name="Message"></p>
+        <p>
+          <button class="button" type="submit">
+            <i class="fa fa-paper-plane"></i> SEND MESSAGE
+          </button>
+        </p>
+      </form>
+      <!-- End Contact Section -->
+    </div>
+
+    <!-- Footer -->
+    <footer class="w3-content w3-padding-64 w3-text-grey w3-xlarge">
+      <i class="fa fa-facebook-official w3-hover-opacity"></i>
+      <i class="fa fa-instagram w3-hover-opacity"></i>
+      <i class="fa fa-snapchat w3-hover-opacity"></i>
+      <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+      <i class="fa fa-twitter w3-hover-opacity"></i>
+      <i class="fa fa-linkedin w3-hover-opacity"></i>
+      <!-- End footer -->
+    </footer>
+
+    <!-- END PAGE CONTENT -->
+  </div>
+
+  </div>
+
+</body>
+
+</html>
