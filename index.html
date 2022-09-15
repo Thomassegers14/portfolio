@@ -150,13 +150,24 @@
       </div>
       <p class="contact__title">Let's get in touch. Send me a message:</p>
 
-      <form action="/action_page.php" target="_blank">
-        <p><input class="input__field" type="text" placeholder="Name" required name="Name"></p>
-        <p><input class="input__field" type="text" placeholder="Email" required name="Email"></p>
-        <p><input class="input__field" type="text" placeholder="Subject" required name="Subject"></p>
-        <p><input class="input__field" type="text" placeholder="Message" required name="Message"></p>
+      <!-- <form method="post" name="myemailform" action="form-to-email.php">
+
+Enter Name:	<input type="text" name="name">
+
+Enter Email Address:	<input type="text" name="email">
+
+Enter Message:	<textarea name="message"></textarea>
+
+<input type="submit" value="Send Form"> -->
+</form>
+
+      <form method="post" name="myemailform" action="https://thomassegers14.github.io/portfolio/form-to-email.php">
+        <p><input class="input__field" type="text" placeholder="Name" required name="name"></p>
+        <p><input class="input__field" type="text" placeholder="Email" required name="email"></p>
+        <p><input class="input__field" type="text" placeholder="Subject" required name="subject"></p>
+        <p><input class="input__field" type="text" placeholder="Message" required name="message"></p>
         <p>
-          <button class="button" type="submit">
+          <button class="button" type="Send Form">
             <i class="fa fa-paper-plane"></i> SEND MESSAGE
           </button>
         </p>
