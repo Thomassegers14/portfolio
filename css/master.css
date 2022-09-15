@@ -2161,6 +2161,11 @@ h6 {
   margin-bottom: 6px;
 }
 
+.work__title span {
+  color: grey;
+  font-weight: 300;
+}
+
 .work__description {
   font-family: 'Fira Sans', sans-serif;
   font-size: 0.9rem;
