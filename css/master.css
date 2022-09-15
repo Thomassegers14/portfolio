@@ -2095,16 +2095,19 @@ h6 {
   font-family: 'Fira Sans', sans-serif;
   font-weight: 400;
   font-size: 0.9rem;
+  color: white;
+  letter-spacing: 1px;
   margin: 12px 0 6px;
 }
 
 .skills__barWrapper {
-  background-color: grey;
+  max-width: 480px;
+  background-color: #212121;
 }
 
 .skills__bar {
   height: 6px;
-  background-color: white;
+  background-color: #616161;
 }
 
 .projects__wrapper {
@@ -2119,13 +2122,17 @@ h6 {
   width: calc(50% - 12px);
 }
 
-.projects__title {
+.body__subtitle {
   font-family: 'Fira Sans', sans-serif;
   font-weight: 300;
   font-size: 1.4rem;
   letter-spacing: 1px;
   color: grey;
-  margin-bottom: 48px;
+  margin: 48px 0 12px;
+}
+
+.body__subtitle--works {
+  margin: 12px 0 48px;
 }
 
 .works {
@@ -2162,7 +2169,6 @@ h6 {
 }
 
 .work__title span {
-  color: grey;
   font-weight: 300;
 }
 
