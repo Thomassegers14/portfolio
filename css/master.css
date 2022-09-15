@@ -2157,7 +2157,7 @@ h6 {
   font-size: 0.9rem;
   color: white;
   letter-spacing: 1px;
-  transition: color 400ms cubic-bezier(.455,.03,.515,.955);
+  transition: color 300ms cubic-bezier(.455,.03,.515,.955);
   margin-bottom: 6px;
 }
 
@@ -2169,7 +2169,7 @@ h6 {
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-top: 0;
-  transition: color 400ms cubic-bezier(.455,.03,.515,.955);
+  transition: color 300ms cubic-bezier(.455,.03,.515,.955);
 }
 
 .works__work a:hover > .work__title,
