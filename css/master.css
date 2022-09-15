@@ -2027,8 +2027,8 @@ h6 {
   text-decoration: underline;
   text-decoration-color: black;
   text-underline-offset: 12px;
-  text-decoration-thickness: 3px;
-  transition: text-decoration-color 200ms ease-in;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 400ms cubic-bezier(.455,.03,.515,.955);
 }
 
 .nav__button:disabled {
@@ -2036,9 +2036,9 @@ h6 {
 }
 
 .nav__button:hover {
-  color: white;
+  color: #374bf5;
   font-weight: 400;
-  text-decoration-color: white;
+  text-decoration-color: #374bf5;
 }
 
 /* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
@@ -2107,16 +2107,74 @@ h6 {
   background-color: white;
 }
 
+.projects__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.projects {
+  margin-right: 12px;
+  margin-bottom: 24px;
+  border-top: 1px solid grey;
+  width: calc(50% - 12px);
+}
+
+.projects__title {
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: 300;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  color: grey;
+  margin-bottom: 48px;
+}
+
 .works {
   display: flex;
   flex-wrap: wrap;
-  border: 1px solid red;
+  width: calc(100% - 12px);
+  align-items: flex-start;
 }
 
 .works__work {
-  width: 50%;
-  border: 1px solid white;
-  padding: 12px;
+  width: calc(100%);
+  margin-bottom: 24px;
+  transition: padding 400ms cubic-bezier(.455,.03,.515,.955);
+}
+
+.works__work:hover {
+  cursor: pointer;
+  padding-left: 5px;
+  color: #374bf5;
+}
+
+.works__work a {
+  text-decoration: none;
+}
+
+.work__title {
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: white;
+  letter-spacing: 1px;
+  transition: color 400ms cubic-bezier(.455,.03,.515,.955);
+  margin-bottom: 6px;
+}
+
+.work__description {
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: grey;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0;
+  transition: color 400ms cubic-bezier(.455,.03,.515,.955);
+}
+
+.works__work a:hover > .work__title,
+.works__work a:hover > .work__description {
+  color: #374bf5;
 }
 
 .button {
