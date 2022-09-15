@@ -2192,7 +2192,7 @@ h6 {
   white-space: nowrap;
   text-transform: uppercase;
   letter-spacing: 1px;
-  transition: background-color 600ms ease-in-out;
+  transition: background-color 400ms cubic-bezier(.455,.03,.515,.955);
 }
 
 .button:hover {
@@ -2200,20 +2200,35 @@ h6 {
   background-color: white;
 }
 
-.contact p {
-  line-height: 1.6;
-  margin: 0;
-}
-
-.contact span {
-  color: grey;
-}
-
 .contact__title {
   font-family: 'Fira Sans', sans-serif;
   font-size: 0.9rem;
   font-weight: 400;
   margin-top: 48px;
+  margin-bottom: 24px;
+}
+
+.contact__info {
+  line-height: 1.6;
+  margin: 0;
+}
+
+.contact__info span {
+  color: grey;
+}
+
+.contact__info a {
+  color: white;
+  text-decoration: none;
+  transition: color 400ms cubic-bezier(.455,.03,.515,.955);
+}
+
+.contact__info a:hover {
+  color: #374bf5;
+}
+
+.contact__info--social {
+  margin-top: 12px;
 }
 
 .input__field {
@@ -2228,6 +2243,30 @@ h6 {
   background-color: transparent;
   width: 100%;
   height: 32px;
+}
+
+.social {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 1.6rem;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  color: white;
+  padding:  0 3px;
+  transition: color 400ms cubic-bezier(.455,.03,.515,.955);
+}
+
+.social:hover {
+  cursor: pointer;
+  color: #374bf5;
+}
+
+.social__twitter::before {
+  content: "\f099";
+}
+
+.social__linkedin::before {
+  content: "\f0e1";
 }
 
 /* Remove margins from "page content" on small screens */
