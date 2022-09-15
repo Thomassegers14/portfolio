@@ -150,18 +150,27 @@
       </div>
       <p class="contact__title">Let's get in touch. Send me a message:</p>
 
-      <form action="/action_page.php" target="_blank">
-        <p><input class="input__field" type="text" placeholder="Name" required name="Name"></p>
-        <p><input class="input__field" type="text" placeholder="Email" required name="Email"></p>
-        <p><input class="input__field" type="text" placeholder="Subject" required name="Subject"></p>
-        <p><input class="input__field" type="text" placeholder="Message" required name="Message"></p>
+      <form action="mailto:segers.thomas@telenet.be" method="post" enctype="text/plain">
+        <p><input class="input__field" type="text" name="name" id="name" placeholder="Name"></p>
+        <p><input class="input__field" type="text" name="email" id="email" placeholder="Email"></p>
+        <p><textarea class="input__field" name="comments" rows="12" cols="35">Send your comments to us.</textarea>
         <p>
-          <button class="button" type="submit">
+          <button class="button" type="submit" name="submit" value="Send">
             <i class="fa fa-paper-plane"></i> SEND MESSAGE
           </button>
         </p>
       </form>
-      <!-- End Contact Section -->
+
+      <form action="mailto:segers.thomas@telenet.be" method="post" enctype="text/plain">
+Name:<br>
+<input type="text" name="name"><br>
+E-mail:<br>
+<input type="text" name="mail"><br>
+Comment:<br>
+<input type="text" name="comment" size="50"><br><br>
+<input type="submit" value="Send">
+<input type="reset" value="Reset">
+</form>
     </div>
 
     <!-- Footer -->
