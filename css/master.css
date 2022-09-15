@@ -2274,4 +2274,10 @@ h6 {
   #main {
     margin-left: 0;
   }
+
+  .projects {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 60px;
+  }
 }
