@@ -1998,6 +1998,16 @@ h6 {
   font-family: 'Crimson Pro', serif;
 }
 
+::-moz-selection { /* Code for Firefox */
+  color: white;
+  background: #3241e9;
+}
+
+::selection {
+  color: white;
+  background: #3241e9;
+}
+
 .w3-row-padding img {
   margin-bottom: 12px;
 }
@@ -2169,6 +2179,7 @@ h6 {
 }
 
 .work__title span {
+
   font-weight: 300;
 }
 
