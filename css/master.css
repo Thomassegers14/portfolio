@@ -2101,6 +2101,13 @@ h6 {
   border-bottom: 1px solid grey;
 }
 
+.body__intro {
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  margin-bottom: 60px;
+}
+
 .skills__title {
   font-family: 'Fira Sans', sans-serif;
   font-weight: 400;
