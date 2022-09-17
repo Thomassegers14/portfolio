@@ -2023,11 +2023,23 @@ h6 {
   border-right: 1px solid #212121;
 }
 
+.nav__title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: 1px;
+  text-align: left;
+  text-transform: uppercase;
+  border-left: 3px solid #374bf5;
+  margin: 24px 24px 25vh;
+  padding: 0 16px;
+}
+
 .nav__button {
   font-family: 'Fira Sans', sans-serif;
   font-size: 0.9rem;
   font-weight: 300;
-  color: grey;
+  color: white;
   width: 100%;
   padding: 0 24px;
   float: left;
@@ -2038,7 +2050,11 @@ h6 {
   text-decoration-color: black;
   text-underline-offset: 12px;
   text-decoration-thickness: 1px;
-  transition: text-decoration-color 400ms cubic-bezier(.455,.03,.515,.955);
+  transition: color 400ms cubic-bezier(.455,.03,.515,.955), padding 400ms cubic-bezier(.455,.03,.515,.955);
+}
+
+.nav__button--mobile {
+  padding: 12px 18px;
 }
 
 .nav__button:disabled {
@@ -2049,6 +2065,7 @@ h6 {
   color: #374bf5;
   font-weight: 400;
   text-decoration-color: #374bf5;
+  padding-left: 30px;
 }
 
 /* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
@@ -2303,6 +2320,10 @@ h6 {
 @media only screen and (max-width: 600px) {
   #main {
     margin-left: 0;
+  }
+
+  .nav__button:hover {
+    padding: 12px 18px;
   }
 
   .projects {
