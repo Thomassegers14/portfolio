@@ -5,6 +5,10 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="https://d3js.org/d3.v6.js"></script>
+<script defer src="js/main.js"></script>
+
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200;0,300;0,400;0,700;1,200;1,300;1,400;1,700&family=Fira+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -44,12 +48,17 @@
 
   <!-- Page Content -->
   <div class="w3-padding-large" id="main">
-    <div class="h-boundingbox">
+    <div class="header" id="home">
+      <div class="header__graph"></div>
+      <div class="header__content">
+        <div class="h-boundingbox">
+            <h1 class="header__title">Thomas Segers</h1>
+            <h2 class="header__subtitle">Data analysist & information designer</h2>
+        </div>
+      </div>
+    </div>
 
-    <header class="header" id="home">
-      <h1 class="header__title">Thomas Segers</h1>
-      <h2 class="header__subtitle">Data analysist & information designer</h2>
-    </header>
+    <div class="h-boundingbox">
 
     <div class="w3-content w3-padding-64 body" id="about">
       <h2 class="body__title">About me</h2>
