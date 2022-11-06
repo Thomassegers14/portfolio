@@ -39,7 +39,7 @@ const colourScalePastel = d3.scaleOrdinal()
   .range(["#f7f7f7", "#cccccc", "#969696", "#374bf5", "#636363", "#252525"]);
 
 const duration = 2400;
-const ease = d3.easeSinInOut;
+const ease = d3.easeLinear;
 
 var timeScale = d3.scaleLinear()
   .domain([0, duration])
@@ -166,7 +166,7 @@ function animate() {
   points.forEach(point => {
     point.twords = Math.abs(point.words + randomIntFromInterval(-100, 100))
     point.thour_num = point.hour_num + randomIntFromInterval(-0.1, 0.1)
-    point.tday_of_the_year = point.day_of_the_year + randomIntFromInterval(-1, 1)
+    point.tday_of_the_year = point.day_of_the_year + randomIntFromInterval(0, 3)
   });
 
   timer = d3.timer((elapsed) => {

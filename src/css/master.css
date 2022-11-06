@@ -2080,6 +2080,7 @@ h6 {
 }
 
 .header__graph {
+  pointer-events: none;
   width: calc(100% - 200px);
   height: 100%;
   position: fixed;
@@ -2148,7 +2149,7 @@ h6 {
 .body__intro {
   font-weight: 500;
   font-size: 1.6rem;
-  line-height: 1.2;
+  line-height: 1.5;
   margin-bottom: 60px;
 }
 
