@@ -122,3 +122,29 @@ Chronological log of all work sessions.
 **Next session starts with:** Visual polish pass + simulation warmup freeze + browser QA
 
 ---
+
+## Session 6 — 2026-04-14
+
+**Goal:** Unify skills en projects in één gedeelde visualisatie
+
+**Done:**
+- `UnifiedViz.vue`: één D3 canvas met twee modi
+  - Skills mode: forceX/Y trekken elke skill-node naar zijn circle-pack-positie (sterk, 0.5)
+  - Projects mode: pack-forces vrijgelaten (strength → 0), force-network neemt over
+  - Morph via krachtenverandering op lopende simulatie — nodes driften organisch van pakking naar netwerk
+  - `applyMode()` + `applyHighlight()` gescheiden zodat beide onafhankelijk aanroepbaar zijn
+  - ResizeObserver herberekent packX/packY in-place; force-accessor leest van node-datum
+- `App.vue`: twee-kolom grid (1fr 1fr), `aside.app-layout__viz` sticky op `top: nav-height`
+- `provide('updateViz')` — secties injecteren en roepen aan op step-enter
+- `SkillsSection.vue`, `ProjectsSection.vue`: alleen steps + useScrollytelling + inject
+- `HeroSection.vue`: tekst-only, geen achtergrondviz
+- Build clean (603 modules, 141kB JS)
+
+**Decisions made:**
+- `SkillsViz.vue` en `ProjectNetwork.vue` zijn niet verwijderd maar worden niet meer gebruikt — ze worden volgende sessie opgeruimd of bewaard als referentie
+- Pack-krachten aanpak (forceX/Y) boven full re-init bij mode-switch — vloeiendere morph
+- `provide/inject` boven custom events — vermijdt prop-drilling door HeroSection heen
+
+**Next session starts with:** Browser QA, skill labels in viz, simulatie freeze na warmup
+
+---

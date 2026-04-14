@@ -3,41 +3,40 @@
 ## Last Session
 
 **Date:** 2026-04-14
-**Session:** 5
+**Session:** 6
 **What was done:**
-- Built `ProjectNetwork.vue` — D3 force-directed network
-  - 34 nodes: 23 skill circles (colored by category, sized by weight) + 11 project diamonds
-  - ~40 links connecting skills to projects
-  - `activeProjectId` prop: active project + connected skills light up, rest dims
-  - Project labels appear on active project
-  - Force simulation: forceLink + forceManyBody + forceCenter + forceCollide
-- Built `ProjectsSection.vue` — 12 scroll steps (1 intro + 11 projects)
-  - Each project step shows title, description, year, client
-  - Step type reflected in card left-border color (data-journalism / visual-storytelling / experimental)
-  - `activeProjectId` drives network highlight
-- Build confirmed clean
+- Architectural refactor: één gedeelde visualisatie i.p.v. twee aparte
+- Built `UnifiedViz.vue` — één D3 canvas, twee modes:
+  - `skills`: circle pack layout, forceX/Y trekken nodes naar pack-positie
+  - `projects`: pack-forces vrijgelaten, force-network neemt over
+  - Morph tussen modes via krachtenverandering op lopende simulatie
+- `App.vue` refactored: twee kolommen — links scrollend, rechts sticky viz pane
+- `provide/inject` voor `updateViz` — secties communiceren via gedeelde state
+- `SkillsSection.vue` vereenvoudigd — pure text steps, inject updateViz
+- `ProjectsSection.vue` vereenvoudigd — pure text steps, inject updateViz
+- `HeroSection.vue` vereenvoudigd — geen achtergrondviz meer
+- Build confirmed clean (603 modules)
 
 **Stopped at:**
-Full scrollytelling pipeline live for both Skills and Projects sections. Next: visual polish, transitions, and final content.
+Één gedeelde visualisatie live in sticky rechterkolom. De vizualisatie morpht van circle pack naar force network bij scrollen van Skills naar Projects sectie.
 
 ---
 
 ## TODO Next Session
 
-- [ ] Visual polish pass: spacing, typography, overall feel in browser
-- [ ] Smooth simulation warmup — freeze simulation after it settles (alphamin reached)
-- [ ] Check scrollytelling behavior end-to-end in browser
-- [ ] Decide: morph transition between SkillsViz and ProjectNetwork (or skip)
-- [ ] Responsive: test on narrower viewport, add mobile fallback if needed
+- [ ] Browser QA: scrollgedrag testen, morph visueel bekijken
+- [ ] Skill labels toevoegen aan UnifiedViz (tekst op de cirkels, zichtbaar in skills mode)
+- [ ] Simulatie freezing: simulatie pauzeren zodra alpha < minAlpha
+- [ ] Visuele polish: paddings, kleuren, kaartdesign finetunen
+- [ ] Responsive check op kleinere viewports
 
 ---
 
 ## Backlog
 
-- [ ] `d3.js` utils — shared color scale from CSS vars (if needed)
-- [ ] Morph/transition between skills layout and project network
-- [ ] Responsive behavior (mobile fallback for complex SVGs)
-- [ ] Final copy and personal content
+- [ ] Morph verfijnen indien nodig na QA
+- [ ] Responsive behavior (mobile fallback)
+- [ ] Final copy en persoonlijke content
 - [ ] Deploy (Netlify / Vercel)
 
 ---
@@ -49,13 +48,12 @@ Full scrollytelling pipeline live for both Skills and Projects sections. Next: v
 - [x] (S2) Design tokens: `variables.css`, `base.css`
 - [x] (S2) Data files: `skills.json`, `projects.json`
 - [x] (S2) `NavBar.vue` — fixed nav with anchor links
-- [x] (S2) `HeroSection.vue` — skeleton
-- [x] (S2) `SkillsSection.vue`, `ProjectsSection.vue` — placeholders
+- [x] (S2) `HeroSection.vue`, `SkillsSection.vue`, `ProjectsSection.vue` — skeletons
 - [x] (S3) `useD3.js` composable — resize observer + SVG setup
-- [x] (S3) `SkillsViz.vue` — D3 circle pack, category colors, hover, activeSkillId prop
-- [x] (S3) `SkillsViz` wired into `SkillsSection` (full) and `HeroSection` (background)
+- [x] (S3) `SkillsViz.vue` — D3 circle pack (nu vervangen door UnifiedViz)
 - [x] (S4) `useScrollytelling.js` — Scrollama composable
-- [x] (S4) `ScrollySection.vue` — sticky graphic + scrollable steps wrapper
-- [x] (S4) `SkillsSection.vue` — 7 scroll steps, activeCategory drives SkillsViz highlight
-- [x] (S5) `ProjectNetwork.vue` — D3 force network, activeProjectId highlight
-- [x] (S5) `ProjectsSection.vue` — 12 scroll steps, fully wired to ProjectNetwork
+- [x] (S4) `ScrollySection.vue` — sticky graphic + steps wrapper (nu ontkoppeld van viz)
+- [x] (S5) `ProjectNetwork.vue` — D3 force network (nu vervangen door UnifiedViz)
+- [x] (S6) `UnifiedViz.vue` — één gedeeld canvas, circle pack ↔ force network morph
+- [x] (S6) `App.vue` twee-kolom layout, sticky viz pane, provide/inject vizState
+- [x] (S6) `SkillsSection.vue` + `ProjectsSection.vue` — pure text steps

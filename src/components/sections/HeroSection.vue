@@ -1,5 +1,5 @@
 <script setup>
-import SkillsViz from '../charts/SkillsViz.vue'
+// No viz here — UnifiedViz lives in the sticky right pane (App.vue)
 </script>
 
 <template>
@@ -12,26 +12,19 @@ import SkillsViz from '../charts/SkillsViz.vue'
       </p>
       <a href="#skills" class="hero__cta">Explore my skills</a>
     </div>
-
-    <!-- Background visualization — semi-transparent circle pack -->
-    <SkillsViz mode="background" />
   </section>
 </template>
 
 <style scoped>
 .hero {
-  position: relative;
-  min-height: 100vh;
+  min-height: calc(100vh - var(--nav-height));
   display: flex;
   align-items: center;
-  padding-top: var(--nav-height);
-  overflow: hidden;
+  padding: var(--space-16) var(--space-8);
 }
 
 .hero__content {
-  position: relative;
-  z-index: 2;
-  max-width: 560px;
+  max-width: 480px;
 }
 
 .hero__label {
@@ -67,7 +60,7 @@ import SkillsViz from '../charts/SkillsViz.vue'
   padding: var(--space-3) var(--space-6);
   letter-spacing: 0.06em;
   transition: background var(--transition-fast) var(--easing-smooth),
-              color var(--transition-fast) var(--easing-smooth);
+              color     var(--transition-fast) var(--easing-smooth);
 }
 
 .hero__cta:hover {

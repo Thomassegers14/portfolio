@@ -1,18 +1,16 @@
 <script setup>
-import { ref } from 'vue'
-import ProjectNetwork from '../charts/ProjectNetwork.vue'
-import ScrollySection from '../layout/ScrollySection.vue'
+import { ref, inject, watch } from 'vue'
+import { useScrollytelling } from '../../composables/useScrollytelling.js'
 import projectsData from '../../assets/data/projects.json'
 
-const activeProjectId = ref(null)
+const updateViz = inject('updateViz')
 
-// Steps: intro + one per project
 const steps = [
   {
     projectId: null,
     label: 'Projects',
     heading: "What I've built",
-    body: 'Eleven projects — each one a skill in action. Scroll to follow the connections.',
+    body: 'Eleven projects — each a different combination of skills. Scroll to follow the connections.',
     typeClass: '',
   },
   ...projectsData.map(p => ({
@@ -26,22 +24,23 @@ const steps = [
   })),
 ]
 
-function onStepEnter({ index }) {
-  const step = steps[index] ?? null
-  activeProjectId.value = step?.projectId ?? null
-}
+const stepsRef = ref(null)
+const { currentStepIndex } = useScrollytelling(stepsRef)
+
+watch(currentStepIndex, index => {
+  if (index === -1) {
+    // Scrolled back above this section — return to skills view
+    updateViz({ mode: 'skills', activeCategory: null, activeProjectId: null })
+    return
+  }
+  const step = steps[index] ?? steps[0]
+  updateViz({ mode: 'projects', activeProjectId: step.projectId, activeCategory: null })
+})
 </script>
 
 <template>
   <section id="projects" class="projects-section">
-    <ScrollySection @step-enter="onStepEnter">
-
-      <!-- Sticky network visualization -->
-      <template #graphic>
-        <ProjectNetwork :active-project-id="activeProjectId" />
-      </template>
-
-      <!-- Scroll steps -->
+    <div ref="stepsRef">
       <div
         v-for="(step, i) in steps"
         :key="i"
@@ -59,21 +58,27 @@ function onStepEnter({ index }) {
           </div>
         </div>
       </div>
-
-    </ScrollySection>
+    </div>
   </section>
 </template>
 
 <style scoped>
 .projects-section {
-  padding: var(--section-pad-y) var(--space-8);
-  max-width: var(--max-width);
-  margin: 0 auto;
+  padding-top: var(--space-24);
+  padding-bottom: var(--space-24);
 }
+
+/* ── Step spacing ─────────────────────────────────────────────────────────── */
+.scrolly-step {
+  padding: 30vh 0;
+}
+
+.scrolly-step:first-child { padding-top: 10vh; }
+.scrolly-step:last-child  { padding-bottom: 40vh; }
 
 /* ── Step cards ───────────────────────────────────────────────────────────── */
 .step-card {
-  max-width: 360px;
+  max-width: 380px;
   padding: var(--space-8);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -120,7 +125,5 @@ function onStepEnter({ index }) {
   gap: var(--space-2);
 }
 
-.step-card__sep {
-  opacity: 0.4;
-}
+.step-card__sep { opacity: 0.4; }
 </style>
