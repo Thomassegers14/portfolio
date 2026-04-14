@@ -1,5 +1,5 @@
 <script setup>
-// SkillsViz will be placed here as a background element once built
+import SkillsViz from '../charts/SkillsViz.vue'
 </script>
 
 <template>
@@ -13,8 +13,8 @@
       <a href="#skills" class="hero__cta">Explore my skills</a>
     </div>
 
-    <!-- Background visualization placeholder — will be replaced by SkillsViz -->
-    <div class="hero__viz-placeholder" aria-hidden="true" />
+    <!-- Background visualization — semi-transparent circle pack -->
+    <SkillsViz mode="background" />
   </section>
 </template>
 
@@ -73,12 +73,5 @@
 .hero__cta:hover {
   background: var(--color-visualization);
   color: var(--color-bg);
-}
-
-.hero__viz-placeholder {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: radial-gradient(ellipse at 70% 50%, color-mix(in srgb, var(--color-visualization) 6%, transparent), transparent 65%);
 }
 </style>

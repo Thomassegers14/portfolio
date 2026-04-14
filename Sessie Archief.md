@@ -53,3 +53,28 @@ Chronological log of all work sessions.
 **Next session starts with:** `useD3.js` composable + `SkillsViz.vue` circle pack
 
 ---
+
+## Session 3 — 2026-04-14
+
+**Goal:** `useD3.js` composable + `SkillsViz.vue` circle pack
+
+**Done:**
+- Built `useD3.js` composable — `ResizeObserver` driven, appends SVG on mount, calls `renderFn(svg, width, height)` on resize, cleans up on unmount
+- Built `SkillsViz.vue` — D3 circle pack over 22 skills in 6 categories
+  - Bubble size proportional to `weight`, colors from CSS custom properties
+  - Labels rendered for circles with r > 22px
+  - Hover interaction: circle scale + opacity
+  - `activeSkillId` prop for scroll-driven external highlighting
+  - `mode` prop: `'full'` (labels, hover, pointer events) vs `'background'` (transparent, static)
+- Wired `SkillsViz mode="full"` into `SkillsSection.vue`
+- Wired `SkillsViz mode="background"` into `HeroSection.vue` (positioned absolute, fills section)
+- Dev server confirmed running (http://localhost:5177)
+
+**Decisions made:**
+- Circle pack chosen over force layout — cleaner grouping by category, works better as background element
+- Colors read at render time via `getComputedStyle` — single source of truth in CSS vars
+- D3 update pattern (enter/update/exit) in place from the start — ready for scroll-driven transitions
+
+**Next session starts with:** `useScrollytelling.js` + `ScrollySection.vue` + first scroll steps in SkillsSection
+
+---
