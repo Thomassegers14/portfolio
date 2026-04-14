@@ -4,9 +4,10 @@ import * as d3 from 'd3'
 import { useD3 } from '../../composables/useD3.js'
 import skillsData from '../../assets/data/skills.json'
 
-// Optional: which skill id is "active" (hover / scroll-driven highlight)
 const props = defineProps({
-  activeSkillId: { type: String, default: null },
+  activeSkillId:  { type: String, default: null },
+  // Highlight all skills in this category (scroll-driven)
+  activeCategory: { type: String, default: null },
   // 'full' = normal view, 'background' = lower opacity, no labels
   mode: { type: String, default: 'full' },
 })
@@ -122,12 +123,31 @@ function render(svg, width, height) {
 
 useD3(render, containerRef)
 
-// Re-render when activeSkillId changes to highlight the right circle.
+// ── Scroll-driven category highlight ─────────────────────────────────────────
+watch(() => props.activeCategory, (newCat) => {
+  if (!containerRef.value) return
+  const svg = d3.select(containerRef.value).select('svg')
+
+  svg.selectAll('g.skill-node').each(function (d) {
+    const isMatch = newCat && d.data.category === newCat
+    d3.select(this).select('circle')
+      .transition().duration(400).ease(d3.easeCubicOut)
+      .attr('fill-opacity',   isMatch ? 0.5  : newCat ? 0.06 : 0.18)
+      .attr('stroke-opacity', isMatch ? 1    : newCat ? 0.15 : 0.5)
+
+    if (props.mode === 'full') {
+      d3.select(this).select('text')
+        .transition().duration(400)
+        .attr('fill-opacity', isMatch && d.r > 22 ? 1 : newCat && !isMatch ? 0.1 : d.r > 22 ? 0.9 : 0)
+    }
+  })
+})
+
+// ── Single skill highlight (for future per-skill steps) ───────────────────────
 watch(() => props.activeSkillId, (newId, oldId) => {
   if (!containerRef.value) return
   const svg = d3.select(containerRef.value).select('svg')
 
-  // Dim previously active skill
   if (oldId) {
     svg.selectAll('g.skill-node')
       .filter(d => d.data.id === oldId)
@@ -137,7 +157,6 @@ watch(() => props.activeSkillId, (newId, oldId) => {
       .attr('stroke-opacity', 0.5)
   }
 
-  // Highlight new active skill
   if (newId) {
     svg.selectAll('g.skill-node')
       .filter(d => d.data.id === newId)

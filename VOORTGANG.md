@@ -3,37 +3,29 @@
 ## Last Session
 
 **Date:** 2026-04-14
-**Session:** 3
+**Session:** 4
 **What was done:**
-- Built `useD3.js` composable — `ResizeObserver` + SVG lifecycle (mount, resize, unmount)
-- Built `SkillsViz.vue` — D3 circle pack, 22 skills, 6 categories, colored by CSS custom properties
-  - Bubble size = `weight` field from skills.json
-  - Labels for circles with radius > 22px
-  - Hover: circle enlarges and brightens
-  - Prop `activeSkillId` for scroll-driven highlighting (prepared for Scrollama)
-  - Prop `mode: 'full' | 'background'` — background mode: transparent, no labels, no pointer events
-- Wired `SkillsViz mode="full"` into `SkillsSection.vue`
-- Wired `SkillsViz mode="background"` into `HeroSection.vue` (replaces placeholder)
-- Dev server confirmed running at http://localhost:5177
+- Built `useScrollytelling.js` — Scrollama wrapper, exports `currentStepIndex`, `currentStepData`, `direction`
+- Built `ScrollySection.vue` — sticky graphic (right) + scrollable steps (left), emits `step-enter`
+- Wired 7 scroll steps into `SkillsSection.vue` (1 intro + 6 categories)
+- Added `activeCategory` prop to `SkillsViz.vue` — active category lights up, rest dims
+- Build confirmed clean (no errors)
 
 **Stopped at:**
-Circle pack visualization live in both Hero (background) and Skills section (full). Next step: scroll-driven behavior via Scrollama.
+Skills scrollytelling fully wired. Next: `ProjectNetwork.vue` — D3 force-directed network linking skills to projects.
 
 ---
 
 ## TODO Next Session
 
-- [ ] Build `useScrollytelling.js` composable — Scrollama integration, step detection
-- [ ] Build `ScrollySection.vue` — sticky graphic + scrollable steps wrapper
-- [ ] Wire `SkillsSection.vue` scroll steps — highlight individual skills as user scrolls
-- [ ] Define scroll step content: which skill gets highlighted at which step
+- [ ] Build `ProjectNetwork.vue` — D3 force-directed network (skills ↔ projects nodes + edges)
+- [ ] Wire `ProjectNetwork.vue` into `ProjectsSection.vue` with scroll steps
+- [ ] Define project scroll steps: reveal connections per project on scroll
 
 ---
 
 ## Backlog
 
-- [ ] `ProjectNetwork.vue` — D3 network visualization (skills ↔ projects)
-- [ ] `ProjectsSection.vue` scroll steps — reveal project connections on scroll
 - [ ] `d3.js` utils — shared color scale from CSS vars, layout helpers (if needed)
 - [ ] Morph/transition between skills layout and project network
 - [ ] Responsive behavior (mobile fallback for complex SVGs)
@@ -54,3 +46,6 @@ Circle pack visualization live in both Hero (background) and Skills section (ful
 - [x] (S3) `useD3.js` composable — resize observer + SVG setup
 - [x] (S3) `SkillsViz.vue` — D3 circle pack, category colors, hover, activeSkillId prop
 - [x] (S3) `SkillsViz` wired into `SkillsSection` (full) and `HeroSection` (background)
+- [x] (S4) `useScrollytelling.js` — Scrollama composable
+- [x] (S4) `ScrollySection.vue` — sticky graphic + scrollable steps wrapper
+- [x] (S4) `SkillsSection.vue` — 7 scroll steps, activeCategory drives SkillsViz highlight

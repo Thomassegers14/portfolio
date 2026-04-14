@@ -78,3 +78,22 @@ Chronological log of all work sessions.
 **Next session starts with:** `useScrollytelling.js` + `ScrollySection.vue` + first scroll steps in SkillsSection
 
 ---
+
+## Session 4 — 2026-04-14
+
+**Goal:** Scrollytelling infrastructure + scroll steps for SkillsSection
+
+**Done:**
+- `useScrollytelling.js`: Scrollama wrapper with Vue lifecycle, exports `currentStepIndex`, `currentStepData`, `direction`, resets on scroll back past step 0
+- `ScrollySection.vue`: sticky graphic (right column) + scrollable steps (left column), emits `step-enter` with index and data
+- `SkillsSection.vue`: 7 scroll steps (1 intro + 1 per skill category), each with label, heading, and body copy
+- `SkillsViz.vue`: added `activeCategory` prop — active category circles light up (fill-opacity 0.5), inactive dim (0.06), labels follow
+- Build confirmed clean
+
+**Decisions made:**
+- Category-level highlighting chosen over per-skill for the first pass — cleaner read, less noise
+- Steps left column, graphic right column — standard scrollytelling layout, keeps viz always visible
+
+**Next session starts with:** `ProjectNetwork.vue` — D3 force-directed network (skills ↔ projects)
+
+---
