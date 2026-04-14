@@ -1,52 +1,126 @@
 <script setup>
-// ProjectNetwork + scroll steps will be wired here
+import { ref } from 'vue'
+import ProjectNetwork from '../charts/ProjectNetwork.vue'
+import ScrollySection from '../layout/ScrollySection.vue'
+import projectsData from '../../assets/data/projects.json'
+
+const activeProjectId = ref(null)
+
+// Steps: intro + one per project
+const steps = [
+  {
+    projectId: null,
+    label: 'Projects',
+    heading: "What I've built",
+    body: 'Eleven projects — each one a skill in action. Scroll to follow the connections.',
+    typeClass: '',
+  },
+  ...projectsData.map(p => ({
+    projectId: p.id,
+    label: p.typeLabel,
+    heading: p.title,
+    body: p.description,
+    year: p.year,
+    client: p.client,
+    typeClass: `step-card--${p.type}`,
+  })),
+]
+
+function onStepEnter({ index }) {
+  const step = steps[index] ?? null
+  activeProjectId.value = step?.projectId ?? null
+}
 </script>
 
 <template>
   <section id="projects" class="projects-section">
-    <div class="projects-section__header">
-      <p class="section-label">Projects</p>
-      <h2 class="section-title">What I've built</h2>
-    </div>
-    <!-- ProjectNetwork and ScrollySection will be placed here -->
-    <div class="projects-section__viz-placeholder">
-      <span>Project network visualization — coming soon</span>
-    </div>
+    <ScrollySection @step-enter="onStepEnter">
+
+      <!-- Sticky network visualization -->
+      <template #graphic>
+        <ProjectNetwork :active-project-id="activeProjectId" />
+      </template>
+
+      <!-- Scroll steps -->
+      <div
+        v-for="(step, i) in steps"
+        :key="i"
+        class="scrolly-step"
+        :data-step="i"
+      >
+        <div class="step-card" :class="step.typeClass">
+          <p class="step-card__label">{{ step.label }}</p>
+          <h2 class="step-card__heading">{{ step.heading }}</h2>
+          <p class="step-card__body">{{ step.body }}</p>
+          <div v-if="step.year" class="step-card__meta">
+            <span>{{ step.year }}</span>
+            <span class="step-card__sep">·</span>
+            <span>{{ step.client }}</span>
+          </div>
+        </div>
+      </div>
+
+    </ScrollySection>
   </section>
 </template>
 
 <style scoped>
 .projects-section {
-  min-height: 100vh;
+  padding: var(--section-pad-y) var(--space-8);
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
-.projects-section__header {
-  margin-bottom: var(--space-12);
+/* ── Step cards ───────────────────────────────────────────────────────────── */
+.step-card {
+  max-width: 360px;
+  padding: var(--space-8);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-border);
 }
 
-.section-label {
+.step-card--data-journalism     { border-left-color: var(--color-analysis);     }
+.step-card--visual-storytelling { border-left-color: var(--color-storytelling); }
+.step-card--experimental        { border-left-color: var(--color-web);          }
+
+.step-card__label {
   font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  color: var(--color-storytelling);
-  letter-spacing: 0.08em;
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  color: var(--color-text-muted);
   margin-bottom: var(--space-3);
 }
 
-.section-title {
-  font-size: var(--text-4xl);
+.step-card--data-journalism     .step-card__label { color: var(--color-analysis);     }
+.step-card--visual-storytelling .step-card__label { color: var(--color-storytelling); }
+.step-card--experimental        .step-card__label { color: var(--color-web);          }
+
+.step-card__heading {
+  font-size: var(--text-xl);
   font-weight: 700;
   letter-spacing: -0.02em;
+  line-height: 1.3;
+  margin-bottom: var(--space-4);
 }
 
-.projects-section__viz-placeholder {
-  height: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px dashed var(--color-border);
-  color: var(--color-text-muted);
-  font-family: var(--font-mono);
+.step-card__body {
   font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin-bottom: var(--space-4);
+}
+
+.step-card__meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  display: flex;
+  gap: var(--space-2);
+}
+
+.step-card__sep {
+  opacity: 0.4;
 }
 </style>

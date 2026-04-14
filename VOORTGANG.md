@@ -3,30 +3,38 @@
 ## Last Session
 
 **Date:** 2026-04-14
-**Session:** 4
+**Session:** 5
 **What was done:**
-- Built `useScrollytelling.js` — Scrollama wrapper, exports `currentStepIndex`, `currentStepData`, `direction`
-- Built `ScrollySection.vue` — sticky graphic (right) + scrollable steps (left), emits `step-enter`
-- Wired 7 scroll steps into `SkillsSection.vue` (1 intro + 6 categories)
-- Added `activeCategory` prop to `SkillsViz.vue` — active category lights up, rest dims
-- Build confirmed clean (no errors)
+- Built `ProjectNetwork.vue` — D3 force-directed network
+  - 34 nodes: 23 skill circles (colored by category, sized by weight) + 11 project diamonds
+  - ~40 links connecting skills to projects
+  - `activeProjectId` prop: active project + connected skills light up, rest dims
+  - Project labels appear on active project
+  - Force simulation: forceLink + forceManyBody + forceCenter + forceCollide
+- Built `ProjectsSection.vue` — 12 scroll steps (1 intro + 11 projects)
+  - Each project step shows title, description, year, client
+  - Step type reflected in card left-border color (data-journalism / visual-storytelling / experimental)
+  - `activeProjectId` drives network highlight
+- Build confirmed clean
 
 **Stopped at:**
-Skills scrollytelling fully wired. Next: `ProjectNetwork.vue` — D3 force-directed network linking skills to projects.
+Full scrollytelling pipeline live for both Skills and Projects sections. Next: visual polish, transitions, and final content.
 
 ---
 
 ## TODO Next Session
 
-- [ ] Build `ProjectNetwork.vue` — D3 force-directed network (skills ↔ projects nodes + edges)
-- [ ] Wire `ProjectNetwork.vue` into `ProjectsSection.vue` with scroll steps
-- [ ] Define project scroll steps: reveal connections per project on scroll
+- [ ] Visual polish pass: spacing, typography, overall feel in browser
+- [ ] Smooth simulation warmup — freeze simulation after it settles (alphamin reached)
+- [ ] Check scrollytelling behavior end-to-end in browser
+- [ ] Decide: morph transition between SkillsViz and ProjectNetwork (or skip)
+- [ ] Responsive: test on narrower viewport, add mobile fallback if needed
 
 ---
 
 ## Backlog
 
-- [ ] `d3.js` utils — shared color scale from CSS vars, layout helpers (if needed)
+- [ ] `d3.js` utils — shared color scale from CSS vars (if needed)
 - [ ] Morph/transition between skills layout and project network
 - [ ] Responsive behavior (mobile fallback for complex SVGs)
 - [ ] Final copy and personal content
@@ -49,3 +57,5 @@ Skills scrollytelling fully wired. Next: `ProjectNetwork.vue` — D3 force-direc
 - [x] (S4) `useScrollytelling.js` — Scrollama composable
 - [x] (S4) `ScrollySection.vue` — sticky graphic + scrollable steps wrapper
 - [x] (S4) `SkillsSection.vue` — 7 scroll steps, activeCategory drives SkillsViz highlight
+- [x] (S5) `ProjectNetwork.vue` — D3 force network, activeProjectId highlight
+- [x] (S5) `ProjectsSection.vue` — 12 scroll steps, fully wired to ProjectNetwork

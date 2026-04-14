@@ -97,3 +97,28 @@ Chronological log of all work sessions.
 **Next session starts with:** `ProjectNetwork.vue` — D3 force-directed network (skills ↔ projects)
 
 ---
+
+## Session 5 — 2026-04-14
+
+**Goal:** `ProjectNetwork.vue` + `ProjectsSection.vue` scroll steps
+
+**Done:**
+- `ProjectNetwork.vue`: D3 force simulation with 34 nodes (23 skills + 11 projects) and ~40 links
+  - Skill nodes: circles, colored by category CSS var, sized by weight
+  - Project nodes: diamonds (rotated rect), colored by type (data-journalism/visual-storytelling/experimental)
+  - `activeProjectId` prop: connected skills light up (fill 0.5, stroke 1), unconnected dim (0.05); active project diamond fills; label appears
+  - `applyHighlight()` called both from watch and after re-render (handles resize during active step)
+  - Simulation stops on unmount
+- `ProjectsSection.vue`: 12 scroll steps wired to `ProjectNetwork` via `ScrollySection`
+  - Steps include project title, description, year, client
+  - Card left-border color follows project type
+- Build confirmed clean (607 modules, no errors)
+
+**Decisions made:**
+- Project type → color mapped to existing CSS vars (data-journalism = analysis/indigo, visual-storytelling = violet, experimental = amber)
+- Force sim parameters: charge -90, link distance 85, collide based on node type
+- Labels only appear for the active project — keeps viz readable at 11 nodes
+
+**Next session starts with:** Visual polish pass + simulation warmup freeze + browser QA
+
+---
