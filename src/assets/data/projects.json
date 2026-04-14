@@ -1,0 +1,112 @@
+[
+  {
+    "id": "proj-gas",
+    "title": "Expensive gas reduces consumption",
+    "type": "data-journalism",
+    "typeLabel": "Data Journalism",
+    "description": "Analysis showing how rising gas prices led to measurable drops in household and industrial consumption.",
+    "year": 2022,
+    "client": "De Tijd",
+    "skillIds": ["skill-r", "skill-ggplot2", "skill-datajournalism", "skill-infodesign"]
+  },
+  {
+    "id": "proj-mercato",
+    "title": "Football mercato 2022",
+    "type": "data-journalism",
+    "typeLabel": "Data Journalism",
+    "description": "Data-driven breakdown of the 2022 summer transfer market: spending patterns, clubs, and player flows across Europe.",
+    "year": 2022,
+    "client": "De Tijd",
+    "skillIds": ["skill-r", "skill-ggplot2", "skill-datajournalism", "skill-narrative"]
+  },
+  {
+    "id": "proj-water",
+    "title": "Water levels at lowest point in 20 years",
+    "type": "data-journalism",
+    "typeLabel": "Data Journalism",
+    "description": "Visualizing historic low water levels in Belgian rivers and the climate context behind the trend.",
+    "year": 2022,
+    "client": "De Tijd",
+    "skillIds": ["skill-r", "skill-ggplot2", "skill-qgis", "skill-datajournalism", "skill-infodesign"]
+  },
+  {
+    "id": "proj-realestate",
+    "title": "How affordable is real estate?",
+    "type": "data-journalism",
+    "typeLabel": "Data Journalism",
+    "description": "Multimedia investigation into Belgian housing affordability, combining price data with income and mortgage statistics.",
+    "year": 2022,
+    "client": "De Tijd",
+    "skillIds": ["skill-r", "skill-d3", "skill-html-css", "skill-datajournalism", "skill-narrative", "skill-infodesign"]
+  },
+  {
+    "id": "proj-gascrisis",
+    "title": "Tracking the European gas crisis",
+    "type": "data-journalism",
+    "typeLabel": "Data Journalism",
+    "description": "Live-updated multimedia tracker following European gas storage levels and price volatility throughout the energy crisis.",
+    "year": 2022,
+    "client": "De Tijd",
+    "skillIds": ["skill-r", "skill-d3", "skill-api", "skill-js", "skill-html-css", "skill-datajournalism", "skill-scrollytelling"]
+  },
+  {
+    "id": "proj-euro2020",
+    "title": "European Championship 2020 analysis",
+    "type": "data-journalism",
+    "typeLabel": "Data Journalism",
+    "description": "Sport data science piece breaking down team and player performance across UEFA Euro 2020.",
+    "year": 2021,
+    "client": "De Tijd",
+    "skillIds": ["skill-r", "skill-ggplot2", "skill-datajournalism", "skill-narrative"]
+  },
+  {
+    "id": "proj-nitrogen",
+    "title": "The nitrogen puzzle",
+    "type": "visual-storytelling",
+    "typeLabel": "Visual Storytelling",
+    "description": "Scrollytelling explainer on Belgium's nitrogen crisis, walking readers through emission sources, regulations, and political deadlock.",
+    "year": 2022,
+    "client": "De Tijd",
+    "skillIds": ["skill-d3", "skill-scrollytelling", "skill-js", "skill-html-css", "skill-qgis", "skill-infodesign", "skill-narrative"]
+  },
+  {
+    "id": "proj-climate",
+    "title": "Climate change is hardest on the youngest",
+    "type": "visual-storytelling",
+    "typeLabel": "Visual Storytelling",
+    "description": "Data-driven visual story showing how younger generations will bear disproportionate consequences of climate change.",
+    "year": 2021,
+    "client": "De Tijd",
+    "skillIds": ["skill-d3", "skill-scrollytelling", "skill-r", "skill-js", "skill-infodesign", "skill-narrative", "skill-datajournalism"]
+  },
+  {
+    "id": "proj-wildfires",
+    "title": "Forest fires in 2019",
+    "type": "visual-storytelling",
+    "typeLabel": "Visual Storytelling",
+    "description": "Global overview of the 2019 wildfire season with geographic and temporal visualizations.",
+    "year": 2020,
+    "client": "De Tijd",
+    "skillIds": ["skill-d3", "skill-qgis", "skill-scrollytelling", "skill-js", "skill-infodesign", "skill-narrative"]
+  },
+  {
+    "id": "proj-disney",
+    "title": "What's on Disney+?",
+    "type": "experimental",
+    "typeLabel": "Experimental",
+    "description": "Exploratory visualization of the Disney+ catalog — genre distribution, release years, and content origin.",
+    "year": 2021,
+    "client": "Personal",
+    "skillIds": ["skill-d3", "skill-js", "skill-html-css", "skill-r", "skill-infodesign"]
+  },
+  {
+    "id": "proj-trees",
+    "title": "Trees of Antwerp",
+    "type": "experimental",
+    "typeLabel": "Experimental",
+    "description": "Open data visualization mapping and analyzing the urban tree inventory of the city of Antwerp.",
+    "year": 2021,
+    "client": "Personal",
+    "skillIds": ["skill-d3", "skill-qgis", "skill-js", "skill-html-css", "skill-mapbox", "skill-infodesign"]
+  }
+]

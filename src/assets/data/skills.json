@@ -1,0 +1,186 @@
+[
+  {
+    "id": "skill-r",
+    "name": "R",
+    "category": "analysis",
+    "categoryLabel": "Data Analysis",
+    "weight": 9,
+    "description": "Statistical computing, data wrangling, and modeling"
+  },
+  {
+    "id": "skill-python",
+    "name": "Python",
+    "category": "analysis",
+    "categoryLabel": "Data Analysis",
+    "weight": 6,
+    "description": "Data analysis with pandas, numpy"
+  },
+  {
+    "id": "skill-sql",
+    "name": "SQL",
+    "category": "analysis",
+    "categoryLabel": "Data Analysis",
+    "weight": 6,
+    "description": "Querying and transforming relational data"
+  },
+  {
+    "id": "skill-excel",
+    "name": "Excel",
+    "category": "analysis",
+    "categoryLabel": "Data Analysis",
+    "weight": 7,
+    "description": "Data cleaning, pivot tables, quick analysis"
+  },
+  {
+    "id": "skill-api",
+    "name": "APIs",
+    "category": "analysis",
+    "categoryLabel": "Data Analysis",
+    "weight": 6,
+    "description": "Fetching and integrating external data sources"
+  },
+  {
+    "id": "skill-d3",
+    "name": "D3.js",
+    "category": "visualization",
+    "categoryLabel": "Data Visualization",
+    "weight": 9,
+    "description": "Custom SVG-based interactive data visualizations"
+  },
+  {
+    "id": "skill-ggplot2",
+    "name": "ggplot2",
+    "category": "visualization",
+    "categoryLabel": "Data Visualization",
+    "weight": 8,
+    "description": "Grammar of graphics for publication-quality charts in R"
+  },
+  {
+    "id": "skill-scrollytelling",
+    "name": "Scrollytelling",
+    "category": "visualization",
+    "categoryLabel": "Data Visualization",
+    "weight": 8,
+    "description": "Scroll-driven narrative visualization"
+  },
+  {
+    "id": "skill-tableau",
+    "name": "Tableau",
+    "category": "visualization",
+    "categoryLabel": "Data Visualization",
+    "weight": 4,
+    "description": "Dashboard and exploratory visualization"
+  },
+  {
+    "id": "skill-qgis",
+    "name": "QGIS",
+    "category": "geospatial",
+    "categoryLabel": "Geospatial",
+    "weight": 7,
+    "description": "Geographic data processing and map production"
+  },
+  {
+    "id": "skill-mapbox",
+    "name": "Mapbox",
+    "category": "geospatial",
+    "categoryLabel": "Geospatial",
+    "weight": 5,
+    "description": "Interactive web maps and custom tile layers"
+  },
+  {
+    "id": "skill-js",
+    "name": "JavaScript",
+    "category": "web",
+    "categoryLabel": "Web Development",
+    "weight": 8,
+    "description": "Core language for interactive web experiences"
+  },
+  {
+    "id": "skill-html-css",
+    "name": "HTML & CSS",
+    "category": "web",
+    "categoryLabel": "Web Development",
+    "weight": 7,
+    "description": "Structure and styling for web projects"
+  },
+  {
+    "id": "skill-vue",
+    "name": "Vue.js",
+    "category": "web",
+    "categoryLabel": "Web Development",
+    "weight": 7,
+    "description": "Component-driven UI framework"
+  },
+  {
+    "id": "skill-react",
+    "name": "React",
+    "category": "web",
+    "categoryLabel": "Web Development",
+    "weight": 5,
+    "description": "Component-driven UI framework"
+  },
+  {
+    "id": "skill-illustrator",
+    "name": "Illustrator",
+    "category": "design",
+    "categoryLabel": "Design",
+    "weight": 8,
+    "description": "Vector graphics and chart refinement"
+  },
+  {
+    "id": "skill-indesign",
+    "name": "InDesign",
+    "category": "design",
+    "categoryLabel": "Design",
+    "weight": 7,
+    "description": "Print and editorial layout design"
+  },
+  {
+    "id": "skill-photoshop",
+    "name": "Photoshop",
+    "category": "design",
+    "categoryLabel": "Design",
+    "weight": 6,
+    "description": "Image editing and compositing"
+  },
+  {
+    "id": "skill-aftereffects",
+    "name": "After Effects",
+    "category": "design",
+    "categoryLabel": "Design",
+    "weight": 6,
+    "description": "Motion graphics and animated data stories"
+  },
+  {
+    "id": "skill-figma",
+    "name": "Figma",
+    "category": "design",
+    "categoryLabel": "Design",
+    "weight": 5,
+    "description": "UI design and prototyping"
+  },
+  {
+    "id": "skill-datajournalism",
+    "name": "Data Journalism",
+    "category": "storytelling",
+    "categoryLabel": "Storytelling",
+    "weight": 9,
+    "description": "Finding and communicating stories in data for a broad audience"
+  },
+  {
+    "id": "skill-infodesign",
+    "name": "Information Design",
+    "category": "storytelling",
+    "categoryLabel": "Storytelling",
+    "weight": 8,
+    "description": "Structuring complex information for clarity and comprehension"
+  },
+  {
+    "id": "skill-narrative",
+    "name": "Visual Narrative",
+    "category": "storytelling",
+    "categoryLabel": "Storytelling",
+    "weight": 8,
+    "description": "Sequencing visuals to guide the reader through a data story"
+  }
+]
