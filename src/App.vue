@@ -63,20 +63,20 @@ provide('updateViz', updateViz)
   overflow: hidden;
 }
 
-/* Mobile: viz above content as a fixed-height banner */
+/* Mobile: single column, viz sticky at top, text scrolls below */
 @media (max-width: 768px) {
   .app-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
   }
 
   .app-layout__viz {
-    /* Render first on mobile (order swap via grid) */
-    order: -1;
-    position: static;
-    height: 55vw;
-    min-height: 280px;
-    max-height: 420px;
+    order: -1;                        /* viz above text */
+    position: sticky;
+    top: var(--nav-height);
+    height: 45vw;
+    min-height: 220px;
+    max-height: 360px;
+    z-index: 10;                      /* stay above scrolling cards */
   }
 }
 </style>

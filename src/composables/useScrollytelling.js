@@ -15,7 +15,10 @@ import scrollama from 'scrollama'
  *   currentStepData  {Ref<any>}     - The `data-step` attribute value (parsed JSON if possible)
  *   direction        {Ref<string>}  - 'down' | 'up'
  */
-export function useScrollytelling(stepContainerRef, { offset = 0.5, debug = false } = {}) {
+export function useScrollytelling(stepContainerRef, { offset = null, debug = false } = {}) {
+  // On mobile the viz occupies the top ~45vw, so trigger a bit higher in the
+  // remaining viewport. On desktop 0.5 (midscreen) is the right default.
+  const resolvedOffset = offset ?? (window.innerWidth <= 768 ? 0.65 : 0.5)
   const currentStepIndex = ref(-1)
   const currentStepData  = ref(null)
   const direction        = ref('down')
@@ -35,7 +38,7 @@ export function useScrollytelling(stepContainerRef, { offset = 0.5, debug = fals
     scroller
       .setup({
         step: stepContainerRef.value.querySelectorAll('.scrolly-step'),
-        offset,
+        offset: resolvedOffset,
         debug,
       })
       .onStepEnter(({ index, element, direction: dir }) => {

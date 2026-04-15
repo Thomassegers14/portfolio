@@ -76,6 +76,15 @@ watch(currentStepIndex, index => {
 .scrolly-step:first-child { padding-top: 10vh; }
 .scrolly-step:last-child  { padding-bottom: 40vh; }
 
+@media (max-width: 768px) {
+  .scrolly-step {
+    padding: 10vh 0;
+  }
+
+  .scrolly-step:first-child { padding-top: 4vh; }
+  .scrolly-step:last-child  { padding-bottom: 20vh; }
+}
+
 /* ── Step cards ───────────────────────────────────────────────────────────── */
 .step-card {
   max-width: 380px;
