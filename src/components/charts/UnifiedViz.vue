@@ -189,8 +189,13 @@ function init(w, h) {
     .text(d => d.title)
 
   // ── Forces ───────────────────────────────────────────────────────────────────
-  forceXPack = d3.forceX(d => d.packX).strength(0.5)
-  forceYPack = d3.forceY(d => d.packY).strength(0.5)
+  // Strength function: only pull skill nodes to pack positions.
+  // Project nodes have no packX/Y — applying strength > 0 to them
+  // would pull them to x=0/y=0 (left-top corner).
+  const packStrength = d => d.nodeType === 'skill' ? 0.5 : 0
+
+  forceXPack = d3.forceX(d => d.packX ?? curW / 2).strength(packStrength)
+  forceYPack = d3.forceY(d => d.packY ?? curH / 2).strength(packStrength)
 
   simulation = d3.forceSimulation(nodes)
     .force('link',    d3.forceLink(links).id(d => d.id).distance(90).strength(0.06))
@@ -232,9 +237,9 @@ function applyMode(mode, animate = true) {
       .force('projCenterX', null)
       .force('projCenterY', null)
 
-    // Restore pack attraction
-    forceXPack.strength(0.5)
-    forceYPack.strength(0.5)
+    // Restore pack attraction — only for skill nodes
+    forceXPack.strength(d => d.nodeType === 'skill' ? 0.5 : 0)
+    forceYPack.strength(d => d.nodeType === 'skill' ? 0.5 : 0)
     simulation.force('link').strength(0.06)
     simulation.alpha(0.5).restart()
 
