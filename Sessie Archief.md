@@ -148,3 +148,29 @@ Chronological log of all work sessions.
 **Next session starts with:** Browser QA, skill labels in viz, simulatie freeze na warmup
 
 ---
+
+## Session 7 — 2026-04-15
+
+**Goal:** Viz verbeteren: labels, ring-layout, mobile responsive
+
+**Done:**
+- `UnifiedViz.vue` volledig herschreven:
+  - Skill nodes: `circle` → `g` (circle + text), labels gecentreerd, tspan voor multi-word namen
+  - Font-size: `min(11px, packR × 0.34)`, verborgen voor r < 15
+  - Pack padding depth-1 = 20px: duidelijke visuele categorieclusters
+  - Projects mode: `forceRadial(36% × min(w,h))` voor skills op buitenste ring; `forceX/Y` voor projecten naar centrum
+  - ResizeObserver doet volledige init op eerste geldige grootte (race condition opgelost)
+  - `100dvh` voor correcte viewport height op mobile browsers
+- Bugfix: project nodes naar linksboven — `forceXPack/Y` met scalar strength 0.5 trekt project nodes (zonder packX/Y) naar x=0, y=0. Fix: strength-functie `d => d.nodeType === 'skill' ? 0.5 : 0`
+- Mobile layout (Optie A na overleg):
+  - Viz `position: sticky` bovenaan (45vw, min 220px, max 360px)
+  - Step-padding: 30vh → 10vh op ≤768px
+  - Scrollama offset: automatisch 0.65 op mobile (triggert in zichtbaar tekstgebied)
+
+**Decisions made:**
+- Optie A gekozen voor mobile na overleg (sticky-top viz + scrollytelling bewaard) boven statische banner of aparte layout
+- Labels auto-hidden op mobile (cirkels te klein) — geen expliciete mobile-only logica nodig
+
+**Next session starts with:** Browser QA op mobile, simulatie freeze, deployment voorbereiden
+
+---

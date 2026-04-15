@@ -2,42 +2,43 @@
 
 ## Last Session
 
-**Date:** 2026-04-14
-**Session:** 6
+**Date:** 2026-04-15
+**Session:** 7
 **What was done:**
-- Architectural refactor: één gedeelde visualisatie i.p.v. twee aparte
-- Built `UnifiedViz.vue` — één D3 canvas, twee modes:
-  - `skills`: circle pack layout, forceX/Y trekken nodes naar pack-positie
-  - `projects`: pack-forces vrijgelaten, force-network neemt over
-  - Morph tussen modes via krachtenverandering op lopende simulatie
-- `App.vue` refactored: twee kolommen — links scrollend, rechts sticky viz pane
-- `provide/inject` voor `updateViz` — secties communiceren via gedeelde state
-- `SkillsSection.vue` vereenvoudigd — pure text steps, inject updateViz
-- `ProjectsSection.vue` vereenvoudigd — pure text steps, inject updateViz
-- `HeroSection.vue` vereenvoudigd — geen achtergrondviz meer
-- Build confirmed clean (603 modules)
+- Visuele verbeteringen aan `UnifiedViz.vue`:
+  - Skill nodes omgezet van `circle` naar `g`-groepen (circle + label)
+  - Labels gecentreerd in cirkels; `tspan` voor multi-word namen (2 regels)
+  - Font-size schaalt met `packR`, verborgen voor r < 15
+  - Pack padding: `depth === 1 → 20px` voor duidelijke categorieclustering
+  - Projects mode: `forceRadial` trekt skills naar buitenste ring (36% min-dim), `forceX/Y` trekt projecten naar centrum
+  - ResizeObserver doet volledige eerste init (geen race condition meer)
+  - `100dvh` voor accurate viewport height
+- Bugfix: project nodes werden naar linksboven getrokken — oorzaak: `forceXPack/Y` gebruikte strength 0.5 voor alle nodes, maar project nodes hebben geen `packX/Y` (→ target = 0). Fix: strength-functie die 0 teruggeeft voor project nodes.
+- Mobile layout (Optie A):
+  - Viz `position: sticky` bovenaan op mobile (45vw, min 220px)
+  - Step-padding 30vh → 10vh op mobile
+  - Scrollama offset 0.65 op mobile (triggert in tekstgebied onder de viz)
 
 **Stopped at:**
-Één gedeelde visualisatie live in sticky rechterkolom. De vizualisatie morpht van circle pack naar force network bij scrollen van Skills naar Projects sectie.
+Visualisatie werkt op desktop en mobile. Scrollytelling intact op beide. Volgende stap: verdere polish en deployment.
 
 ---
 
 ## TODO Next Session
 
-- [ ] Browser QA: scrollgedrag testen, morph visueel bekijken
-- [ ] Skill labels toevoegen aan UnifiedViz (tekst op de cirkels, zichtbaar in skills mode)
-- [ ] Simulatie freezing: simulatie pauzeren zodra alpha < minAlpha
-- [ ] Visuele polish: paddings, kleuren, kaartdesign finetunen
-- [ ] Responsive check op kleinere viewports
+- [ ] Browser QA op mobile (echte device of DevTools)
+- [ ] Simulatie freeze na warmup (stopSimulation zodra alpha < minAlpha)
+- [ ] Hero sectie verbeteren — momenteel leeg rechts; eventueel intro-animatie in viz
+- [ ] Opruimen van ongebruikte bestanden: `SkillsViz.vue`, `ProjectNetwork.vue`, `ScrollySection.vue`
+- [ ] Deploy (Netlify / Vercel)
 
 ---
 
 ## Backlog
 
-- [ ] Morph verfijnen indien nodig na QA
-- [ ] Responsive behavior (mobile fallback)
 - [ ] Final copy en persoonlijke content
-- [ ] Deploy (Netlify / Vercel)
+- [ ] Responsive: verdere mobile polish na QA
+- [ ] Morph verfijnen indien nodig na QA
 
 ---
 
@@ -47,13 +48,12 @@
 - [x] (S2) Vite + Vue 3 scaffold + npm install
 - [x] (S2) Design tokens: `variables.css`, `base.css`
 - [x] (S2) Data files: `skills.json`, `projects.json`
-- [x] (S2) `NavBar.vue` — fixed nav with anchor links
-- [x] (S2) `HeroSection.vue`, `SkillsSection.vue`, `ProjectsSection.vue` — skeletons
-- [x] (S3) `useD3.js` composable — resize observer + SVG setup
-- [x] (S3) `SkillsViz.vue` — D3 circle pack (nu vervangen door UnifiedViz)
-- [x] (S4) `useScrollytelling.js` — Scrollama composable
-- [x] (S4) `ScrollySection.vue` — sticky graphic + steps wrapper (nu ontkoppeld van viz)
-- [x] (S5) `ProjectNetwork.vue` — D3 force network (nu vervangen door UnifiedViz)
+- [x] (S2) `NavBar.vue`, `HeroSection.vue`, section skeletons
+- [x] (S3) `useD3.js`, `SkillsViz.vue` (vervangen)
+- [x] (S4) `useScrollytelling.js`, `ScrollySection.vue`, skills scroll steps
+- [x] (S5) `ProjectNetwork.vue` (vervangen), projects scroll steps
 - [x] (S6) `UnifiedViz.vue` — één gedeeld canvas, circle pack ↔ force network morph
 - [x] (S6) `App.vue` twee-kolom layout, sticky viz pane, provide/inject vizState
-- [x] (S6) `SkillsSection.vue` + `ProjectsSection.vue` — pure text steps
+- [x] (S7) Labels in viz, category clustering, ring-layout voor projects mode
+- [x] (S7) Bugfix: project nodes niet meer naar linksboven getrokken
+- [x] (S7) Mobile layout: sticky viz top, compacte step-padding, offset aanpassing
