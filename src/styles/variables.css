@@ -1,6 +1,6 @@
 :root {
   /* ── Background ─────────────────────────────────────────────── */
-  --color-bg:         #0a0a0f;
+  --color-bg:         #141414;
   --color-surface:    #12121a;
   --color-surface-2:  #1a1a26;
   --color-border:     #2a2a3a;
@@ -11,7 +11,7 @@
 
   /* ── Skill category colors (match skills.json categories) ────── */
   --color-analysis:      #6366f1;  /* indigo   */
-  --color-visualization: #22d3ee;  /* cyan     */
+  --color-visualization: #8EDD8E;  /* cyan     */
   --color-geospatial:    #34d399;  /* emerald  */
   --color-web:           #f59e0b;  /* amber    */
   --color-design:        #f43f5e;  /* rose     */
