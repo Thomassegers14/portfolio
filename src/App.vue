@@ -47,32 +47,36 @@ provide('updateViz', updateViz)
 .app-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 100vh;
+  min-height: 100dvh;
   padding-top: var(--nav-height);
 }
 
 .app-layout__scroll {
-  /* Scrolls with the page */
   min-width: 0; /* prevent grid blowout */
 }
 
 .app-layout__viz {
   position: sticky;
   top: var(--nav-height);
-  height: calc(100vh - var(--nav-height));
+  /* 100dvh accounts for mobile browser chrome correctly */
+  height: calc(100dvh - var(--nav-height));
   overflow: hidden;
 }
 
-/* Mobile: stack viz below content */
+/* Mobile: viz above content as a fixed-height banner */
 @media (max-width: 768px) {
   .app-layout {
     grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
   }
 
   .app-layout__viz {
+    /* Render first on mobile (order swap via grid) */
+    order: -1;
     position: static;
-    height: 60vw;
-    min-height: 300px;
+    height: 55vw;
+    min-height: 280px;
+    max-height: 420px;
   }
 }
 </style>
