@@ -2,25 +2,27 @@
 
 ## Last Session
 
-**Date:** 2026-04-15
-**Session:** 7
+**Date:** 2026-04-16
+**Session:** 8
 **What was done:**
-- Visuele verbeteringen aan `UnifiedViz.vue`:
-  - Skill nodes omgezet van `circle` naar `g`-groepen (circle + label)
-  - Labels gecentreerd in cirkels; `tspan` voor multi-word namen (2 regels)
-  - Font-size schaalt met `packR`, verborgen voor r < 15
-  - Pack padding: `depth === 1 → 20px` voor duidelijke categorieclustering
-  - Projects mode: `forceRadial` trekt skills naar buitenste ring (36% min-dim), `forceX/Y` trekt projecten naar centrum
-  - ResizeObserver doet volledige eerste init (geen race condition meer)
-  - `100dvh` voor accurate viewport height
-- Bugfix: project nodes werden naar linksboven getrokken — oorzaak: `forceXPack/Y` gebruikte strength 0.5 voor alle nodes, maar project nodes hebben geen `packX/Y` (→ target = 0). Fix: strength-functie die 0 teruggeeft voor project nodes.
-- Mobile layout (Optie A):
-  - Viz `position: sticky` bovenaan op mobile (45vw, min 220px)
-  - Step-padding 30vh → 10vh op mobile
-  - Scrollama offset 0.65 op mobile (triggert in tekstgebied onder de viz)
+- Ongebruikte bestanden verwijderd: `SkillsViz.vue`, `ProjectNetwork.vue`, `ScrollySection.vue`, `useD3.js` (532 regels weg, build groen)
+- Hero sectie volledig herschreven op basis van referentiedesign (13g.fr):
+  - Crimson Pro als display-font (serif), DM Sans vervangt Inter als sans-serif
+  - Grote serif headline met cursief groen accent-woord
+  - Eyebrow label met groene streep prefix
+  - Subtekst in twee lagen (body + muted)
+- Design tokens uitgebreid in `variables.css`:
+  - `--font-serif: 'Crimson Pro'`, `--font-sans: 'DM Sans'`
+  - `--color-primary: #8EDD8E`, `--color-border-2`, `--color-shadow`
+  - `--text-display: clamp(3.2rem, 6vw, 5.5rem)`
+- Google Fonts geladen in `index.html`: Crimson Pro, DM Sans, JetBrains Mono
+- Globale `.btn-pill` stijl aangemaakt in `base.css`:
+  - Donkere achtergrond, `border-radius: 0.56rem`, border, shadow bij hover
+  - Gebruikt door hero CTA én alle navbar-links incl. Contact-knop
+- NavBar: Contact-knop toegevoegd, alle links (incl. Contact) gebruiken `.btn-pill`
 
 **Stopped at:**
-Visualisatie werkt op desktop en mobile. Scrollytelling intact op beide. Volgende stap: verdere polish en deployment.
+Hero en navbar volledig gestyled. Globale button-stijl in place. Volgende stap: QA, simulatie freeze, deployment.
 
 ---
 
@@ -28,9 +30,8 @@ Visualisatie werkt op desktop en mobile. Scrollytelling intact op beide. Volgend
 
 - [ ] Browser QA op mobile (echte device of DevTools)
 - [ ] Simulatie freeze na warmup (stopSimulation zodra alpha < minAlpha)
-- [ ] Hero sectie verbeteren — momenteel leeg rechts; eventueel intro-animatie in viz
-- [ ] Opruimen van ongebruikte bestanden: `SkillsViz.vue`, `ProjectNetwork.vue`, `ScrollySection.vue`
 - [ ] Deploy (Netlify / Vercel)
+- [ ] Final copy — lorem ipsum in hero vervangen door echte tekst
 
 ---
 

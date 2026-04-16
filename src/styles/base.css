@@ -35,3 +35,25 @@ a {
 svg {
   display: block;
 }
+
+/* ── Button ──────────────────────────────────────────────────────────────── */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-3) var(--space-6);
+  border: 1px solid var(--color-border-2);
+  border-radius: 0.56rem;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 400;
+  cursor: pointer;
+  transition: opacity var(--transition-fast) var(--easing-smooth),
+              box-shadow var(--transition-fast) var(--easing-smooth);
+}
+
+.btn-pill:hover {
+  opacity: 0.85;
+  box-shadow: -3px 3px 5px var(--color-shadow);
+}

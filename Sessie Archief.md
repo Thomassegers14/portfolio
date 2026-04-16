@@ -174,3 +174,27 @@ Chronological log of all work sessions.
 **Next session starts with:** Browser QA op mobile, simulatie freeze, deployment voorbereiden
 
 ---
+
+## Session 8 — 2026-04-16
+
+**Goal:** Opkuis ongebruikte code + hero restyling op basis van referentiedesign
+
+**Done:**
+- Verwijderd: `SkillsViz.vue`, `ProjectNetwork.vue`, `ScrollySection.vue`, `useD3.js` — allemaal vervangen door `UnifiedViz.vue` in sessie 6, nergens meer geïmporteerd (532 regels weg)
+- Hero volledig herschreven naar referentiedesign (13g.fr stijl):
+  - Crimson Pro serif als display-font voor de headline
+  - Groot italic groen accentwoord in de titel
+  - Eyebrow label met decoratieve groene lijn
+- Fonts: DM Sans vervangt Inter als `--font-sans`; Crimson Pro toegevoegd als `--font-serif`
+- Nieuwe design tokens: `--color-primary`, `--color-border-2`, `--color-shadow`, `--text-display`
+- Globale `.btn-pill` stijl in `base.css`: donkere achtergrond, afgeronde hoeken, border, shadow-hover
+- NavBar: Contact-knop toegevoegd; alle nav-links en Contact gebruiken `.btn-pill`
+
+**Decisions made:**
+- `.btn-pill` globaal in `base.css` — één definitie, herbruikbaar via class overal in de site
+- DM Sans boven Inter — betere pairing met Crimson Pro, iets geometrischer karakter
+- Crimson Pro italic voor het accentwoord in de headline — verwijzing naar editorial/journalistiek werk
+
+**Next session starts with:** Browser QA op mobile, simulatie freeze, deployment (Netlify/Vercel)
+
+---

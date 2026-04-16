@@ -9,11 +9,14 @@ const links = [
 <template>
   <nav class="navbar">
     <span class="navbar__name">Thomas Segers</span>
-    <ul class="navbar__links">
-      <li v-for="link in links" :key="link.href">
-        <a :href="link.href">{{ link.label }}</a>
-      </li>
-    </ul>
+    <div class="navbar__right">
+      <ul class="navbar__links">
+        <li v-for="link in links" :key="link.href">
+          <a :href="link.href" class="btn-pill">{{ link.label }}</a>
+        </li>
+      </ul>
+      <a href="#contact" class="btn-pill">Contact</a>
+    </div>
   </nav>
 </template>
 
@@ -29,7 +32,7 @@ const links = [
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--space-8);
-  background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+  /* background: color-mix(in srgb, var(--color-bg) 60%, transparent); */
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border);
 }
@@ -41,20 +44,17 @@ const links = [
   letter-spacing: 0.05em;
 }
 
+.navbar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
 .navbar__links {
   display: flex;
-  gap: var(--space-8);
+  gap: var(--space-2);
   list-style: none;
 }
 
-.navbar__links a {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-  letter-spacing: 0.04em;
-  transition: color var(--transition-fast) var(--easing-smooth);
-}
 
-.navbar__links a:hover {
-  color: var(--color-text);
-}
 </style>

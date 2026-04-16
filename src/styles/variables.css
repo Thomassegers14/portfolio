@@ -4,32 +4,39 @@
   --color-surface:    #12121a;
   --color-surface-2:  #1a1a26;
   --color-border:     #2a2a3a;
+  --color-border-2:  #424242;
 
   /* ── Text ────────────────────────────────────────────────────── */
   --color-text:       #f0f0f5;
-  --color-text-muted: #8888aa;
+  --color-text-muted: #898989;
 
   /* ── Skill category colors (match skills.json categories) ────── */
   --color-analysis:      #6366f1;  /* indigo   */
-  --color-visualization: #8EDD8E;  /* cyan     */
+  --color-visualization: #8EDD8E;  /* green    */
   --color-geospatial:    #34d399;  /* emerald  */
   --color-web:           #f59e0b;  /* amber    */
   --color-design:        #f43f5e;  /* rose     */
   --color-storytelling:  #a78bfa;  /* violet   */
 
+  /* ── Primary accent ─────────────────────────────────────────── */
+  --color-primary: #8EDD8E;
+  --color-shadow: #8ddd8d1a;
+
   /* ── Typography ──────────────────────────────────────────────── */
-  --font-sans:   'Inter', system-ui, sans-serif;
+  --font-sans:   'DM Sans', system-ui, sans-serif;
+  --font-serif:  'Crimson Pro', Georgia, serif;
   --font-mono:   'JetBrains Mono', 'Fira Code', monospace;
 
-  --text-xs:   0.75rem;
-  --text-sm:   0.875rem;
-  --text-base: 1rem;
-  --text-lg:   1.125rem;
-  --text-xl:   1.25rem;
-  --text-2xl:  1.5rem;
-  --text-3xl:  1.875rem;
-  --text-4xl:  2.25rem;
-  --text-5xl:  3rem;
+  --text-xs:      0.75rem;
+  --text-sm:      0.875rem;
+  --text-base:    1rem;
+  --text-lg:      1.125rem;
+  --text-xl:      1.25rem;
+  --text-2xl:     1.5rem;
+  --text-3xl:     1.875rem;
+  --text-4xl:     2.25rem;
+  --text-5xl:     3rem;
+  --text-display: clamp(3.2rem, 6vw, 5.5rem);
 
   /* ── Spacing ─────────────────────────────────────────────────── */
   --space-1:  0.25rem;
@@ -43,7 +50,7 @@
   --space-24: 6rem;
 
   /* ── Layout ──────────────────────────────────────────────────── */
-  --nav-height:    64px;
+  --nav-height:    80px;
   --max-width:     1200px;
   --section-pad-y: var(--space-24);
 
