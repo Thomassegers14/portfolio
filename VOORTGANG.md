@@ -37,6 +37,7 @@ Site live op Vercel. Vercel CLI niet gebruikt — deploy via dashboard na GitHub
 
 ## Backlog
 
+- [ ] Domeinnaam koppelen aan Vercel (DNS configureren bij registrar)
 - [ ] Final copy en persoonlijke content
 - [ ] Responsive: verdere mobile polish na QA
 - [ ] Morph verfijnen indien nodig na QA
