@@ -3,7 +3,7 @@
 ## Last Session
 
 **Date:** 2026-04-16
-**Session:** 8
+**Session:** 9
 **What was done:**
 - Ongebruikte bestanden verwijderd: `SkillsViz.vue`, `ProjectNetwork.vue`, `ScrollySection.vue`, `useD3.js` (532 regels weg, build groen)
 - Hero sectie volledig herschreven op basis van referentiedesign (13g.fr):
@@ -22,7 +22,7 @@
 - NavBar: Contact-knop toegevoegd, alle links (incl. Contact) gebruiken `.btn-pill`
 
 **Stopped at:**
-Hero en navbar volledig gestyled. Globale button-stijl in place. Volgende stap: QA, simulatie freeze, deployment.
+Site live op Vercel. Vercel CLI niet gebruikt — deploy via dashboard na GitHub push. Volgende stap: QA, simulatie freeze, verdere polish.
 
 ---
 

@@ -198,3 +198,20 @@ Chronological log of all work sessions.
 **Next session starts with:** Browser QA op mobile, simulatie freeze, deployment (Netlify/Vercel)
 
 ---
+
+## Session 9 — 2026-04-16
+
+**Goal:** Eerste deployment naar Vercel
+
+**Done:**
+- 2 openstaande commits gepusht naar `Thomassegers14/portfolio` op GitHub
+- Site gedeployed via Vercel dashboard (import van GitHub repo)
+- Vercel detecteert Vite automatisch: build `vite build`, output `dist`
+
+**Decisions made:**
+- Vercel dashboard boven CLI — snelste weg voor een eerste deploy, geen config nodig
+- Elke push naar `main` triggert automatisch een nieuwe Vercel deploy
+
+**Next session starts with:** Browser QA op live URL, simulatie freeze, final copy
+
+---
