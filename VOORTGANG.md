@@ -2,8 +2,8 @@
 
 ## Last Session
 
-**Date:** 2026-04-16
-**Session:** 9
+**Date:** 2026-05-19
+**Session:** 10
 **What was done:**
 - Ongebruikte bestanden verwijderd: `SkillsViz.vue`, `ProjectNetwork.vue`, `ScrollySection.vue`, `useD3.js` (532 regels weg, build groen)
 - Hero sectie volledig herschreven op basis van referentiedesign (13g.fr):
@@ -22,22 +22,23 @@
 - NavBar: Contact-knop toegevoegd, alle links (incl. Contact) gebruiken `.btn-pill`
 
 **Stopped at:**
-Site live op Vercel. Vercel CLI niet gebruikt — deploy via dashboard na GitHub push. Volgende stap: QA, simulatie freeze, verdere polish.
+3D force graph branch volledig uitgewerkt op `feature/3d-force-graph`. Nodes, materials, DoF, labels en links werken. Volgende stap: branch mergen of verder polijsten, dan QA op main.
 
 ---
 
 ## TODO Next Session
 
+- [ ] Beslissen: `feature/3d-force-graph` mergen naar `main` of verder polijsten
 - [ ] Browser QA op mobile (echte device of DevTools)
 - [ ] Simulatie freeze na warmup (stopSimulation zodra alpha < minAlpha)
-- [ ] Deploy (Netlify / Vercel)
 - [ ] Final copy — lorem ipsum in hero vervangen door echte tekst
+- [ ] `ProjectsSection.vue` copy updaten (staat nog op "Eleven projects")
 
 ---
 
 ## Backlog
 
-- [ ] Domeinnaam koppelen aan Vercel (DNS configureren bij registrar)
+- [x] Domeinnaam koppelen aan Vercel (DNS configureren bij registrar)
 - [ ] Final copy en persoonlijke content
 - [ ] Responsive: verdere mobile polish na QA
 - [ ] Morph verfijnen indien nodig na QA

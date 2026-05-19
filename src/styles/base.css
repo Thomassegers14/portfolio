@@ -36,6 +36,12 @@ svg {
   display: block;
 }
 
+/* ── Step cards — glass effect over 3D background ───────────────────────── */
+.step-card {
+  backdrop-filter: blur(12px);
+  background: color-mix(in srgb, var(--color-surface) 75%, transparent) !important;
+}
+
 /* ── Button ──────────────────────────────────────────────────────────────── */
 .btn-pill {
   display: inline-flex;

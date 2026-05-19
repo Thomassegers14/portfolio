@@ -215,3 +215,31 @@ Chronological log of all work sessions.
 **Next session starts with:** Browser QA op live URL, simulatie freeze, final copy
 
 ---
+
+## Session 10 — 2026-05-19
+
+**Goal:** 3D force graph onderzoek en implementatie op `feature/3d-force-graph`
+
+**Done:**
+- `3d-force-graph` geïnstalleerd, `ForceGraph3D.vue` component gebouwd
+- Fullscreen layout: viz als vaste achtergrond, scroll-content eroverheen
+- Three.js camera controls uitgeschakeld via `pointer-events: none` op canvas
+- Scroll-gestuurde camera-animatie met `easeOutExpo` (inzoomen) en `easeInOutCubic` (terugkeren)
+- Opaque `MeshStandardMaterial` met matte look (roughness 0.42, metalness 0.08)
+- Verlichting: ambient + key light + fill light + rim light achter de scene
+- Depth of Field via `EffectComposer` + `BokehPass` (focus 590, aperture 2.6×0.00001, maxblur 7×0.001)
+- Recursieve render loop opgelost via `insideComposer` flag
+- Labels: canvas sprites op 3× DPR, aparte `labelScene` (geen DoF blur), vaste schermgrootte via afstandscompensatie, donkere pill-achtergrond
+- Highlight-logica: actieve nodes voller, gedimde nodes transparant, `depthWrite: false` voor gedimde nodes
+- Links: wit voor actief, zwart voor gedimed
+- 10 dummy projecten toegevoegd zodat alle 23 skills verbonden zijn
+- Material presets in `MAT` object, `applyMat` helper
+
+**Decisions made:**
+- Opaque MeshStandardMaterial boven Fresnel-transparantie — consistenter en leesbaarder
+- Labels in aparte `labelScene` om DoF-blur te vermijden
+- Branch `feature/3d-force-graph` — `main` blijft intact met D3-versie
+
+**Next session starts with:** Beslissen of 3D branch naar main gaat, QA mobile, final copy
+
+---

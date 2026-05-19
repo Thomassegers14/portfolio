@@ -108,5 +108,105 @@
     "year": 2021,
     "client": "Personal",
     "skillIds": ["skill-d3", "skill-qgis", "skill-js", "skill-html-css", "skill-mapbox", "skill-infodesign"]
+  },
+  {
+    "id": "proj-energy-mix",
+    "title": "Belgian energy mix tracker",
+    "type": "data-journalism",
+    "typeLabel": "Data Journalism",
+    "description": "Interactive Tableau dashboard tracking Belgium's energy production mix across sources and seasons.",
+    "year": 2023,
+    "client": "De Tijd",
+    "skillIds": ["skill-tableau", "skill-sql", "skill-excel", "skill-datajournalism"]
+  },
+  {
+    "id": "proj-covid-pipeline",
+    "title": "COVID-19 data pipeline",
+    "type": "experimental",
+    "typeLabel": "Experimental",
+    "description": "Automated Python pipeline pulling daily COVID statistics from public APIs, cleaning and storing them for newsroom use.",
+    "year": 2021,
+    "client": "Personal",
+    "skillIds": ["skill-python", "skill-api", "skill-sql"]
+  },
+  {
+    "id": "proj-budget-explorer",
+    "title": "Federal budget explorer",
+    "type": "experimental",
+    "typeLabel": "Experimental",
+    "description": "Vue + D3 single-page app letting readers drill into Belgian federal budget allocations by department and year.",
+    "year": 2023,
+    "client": "Personal",
+    "skillIds": ["skill-vue", "skill-js", "skill-d3", "skill-html-css"]
+  },
+  {
+    "id": "proj-annual-report",
+    "title": "NGO annual report",
+    "type": "visual-storytelling",
+    "typeLabel": "Visual Storytelling",
+    "description": "Full editorial design of a 48-page annual report combining data visualisation with long-form narrative layout.",
+    "year": 2022,
+    "client": "Oxfam Belgium",
+    "skillIds": ["skill-indesign", "skill-illustrator", "skill-infodesign", "skill-narrative"]
+  },
+  {
+    "id": "proj-climate-animation",
+    "title": "Climate tipping points",
+    "type": "visual-storytelling",
+    "typeLabel": "Visual Storytelling",
+    "description": "Animated explainer series on climate tipping points, combining motion graphics with data-driven chart animation.",
+    "year": 2022,
+    "client": "De Tijd",
+    "skillIds": ["skill-aftereffects", "skill-illustrator", "skill-narrative", "skill-infodesign"]
+  },
+  {
+    "id": "proj-election-app",
+    "title": "Election results app",
+    "type": "experimental",
+    "typeLabel": "Experimental",
+    "description": "Real-time React application displaying 2024 Belgian election results by municipality as votes were counted.",
+    "year": 2024,
+    "client": "De Tijd",
+    "skillIds": ["skill-react", "skill-js", "skill-html-css", "skill-datajournalism"]
+  },
+  {
+    "id": "proj-ux-prototype",
+    "title": "Data product UX design",
+    "type": "experimental",
+    "typeLabel": "Experimental",
+    "description": "Figma prototype for an internal data exploration tool, covering information architecture, flows and component library.",
+    "year": 2023,
+    "client": "Personal",
+    "skillIds": ["skill-figma", "skill-illustrator", "skill-infodesign"]
+  },
+  {
+    "id": "proj-photo-essay",
+    "title": "Visual photo essay",
+    "type": "visual-storytelling",
+    "typeLabel": "Visual Storytelling",
+    "description": "Long-form visual essay combining photojournalism with data overlays, edited and retouched in Photoshop.",
+    "year": 2021,
+    "client": "De Tijd",
+    "skillIds": ["skill-photoshop", "skill-illustrator", "skill-narrative"]
+  },
+  {
+    "id": "proj-newsroom-audit",
+    "title": "Newsroom data audit",
+    "type": "data-journalism",
+    "typeLabel": "Data Journalism",
+    "description": "Python + SQL analysis of five years of article performance data to identify content gaps and audience trends.",
+    "year": 2023,
+    "client": "De Tijd",
+    "skillIds": ["skill-python", "skill-sql", "skill-excel", "skill-datajournalism"]
+  },
+  {
+    "id": "proj-demographics",
+    "title": "Population ageing in Belgium",
+    "type": "data-journalism",
+    "typeLabel": "Data Journalism",
+    "description": "Statistical deep-dive into regional demographic shifts using Python and ggplot2, published as an interactive report.",
+    "year": 2022,
+    "client": "De Tijd",
+    "skillIds": ["skill-python", "skill-ggplot2", "skill-infodesign", "skill-datajournalism"]
   }
 ]
