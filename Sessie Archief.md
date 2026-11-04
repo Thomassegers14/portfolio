@@ -274,6 +274,9 @@ Chronological log of all work sessions.
 - Drift en trackers weer verwijderd (te afleidend); cursor-splash herwerkt: tekst wordt in ±2px tegels op device-resolutie gehakt die zelf het lettermateriaal dragen — geen CSS-mask meer, kracht volgt de cursorrichting met Gaussische falloff en per-tegel massa/veer
 - Woorden apart positioneren volgens DOM Range: canvas en DOM verschillen in spatiebreedte
 - Loop slaapt zodra alles in rust is
+- Return-model: veer vervangen door drag + exponentiële homing → geen overshoot (gesimuleerd: 27–44px → 0px)
+- Intro "naam die landt" (`IntroOverlay.vue` + `utils/intro.js`): eenmalig per sessie, FLIP naar de masthead; alle openingsvertragingen schuiven via `--intro-offset` / `introOffset`
+- Bugfix: ResizeObserver vuurt bij observe → resample zonder intro wiste de gather; nu alleen bij echte maatwijziging
 
 **Next session starts with:** dummy-projecten opruimen, `site.json` invullen, beelden, merge naar `main`
 

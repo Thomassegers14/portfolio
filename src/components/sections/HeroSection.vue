@@ -111,19 +111,19 @@ const spotlight = projectById(site.hero.spotlightProjectId)
    (ParticleHeadline) → spotlight frame uncovers → registers settle in. */
 @media (prefers-reduced-motion: no-preference) {
   .intro__register {
-    animation: fade-in 500ms var(--ease-out-expo) 250ms both;
+    animation: fade-in 500ms var(--ease-out-expo) calc(var(--intro-offset, 0ms) + 250ms) both;
   }
 
   .intro__spotlight > .project-frame {
-    animation: frame-uncover 900ms var(--ease-out-expo) 400ms both;
+    animation: frame-uncover 900ms var(--ease-out-expo) calc(var(--intro-offset, 0ms) + 400ms) both;
   }
 
   .intro__caption-row {
-    animation: fade-in 500ms var(--ease-out-expo) 700ms both;
+    animation: fade-in 500ms var(--ease-out-expo) calc(var(--intro-offset, 0ms) + 700ms) both;
   }
 
   .intro__note {
-    animation: fade-in 600ms var(--ease-out-expo) 800ms both;
+    animation: fade-in 600ms var(--ease-out-expo) calc(var(--intro-offset, 0ms) + 800ms) both;
   }
 }
 

@@ -5,7 +5,9 @@
  * Elements that enter in the same frame are staggered; nothing starts before
  * the opening sequence ends.
  */
-const OPENING_MS  = 1100
+import { introOffset } from '../utils/intro.js'
+
+const OPENING_MS  = 1100 + introOffset
 const RUN_MS      = 1300
 const STAGGER_MS  = 40
 const MAX_STAGGER = 8

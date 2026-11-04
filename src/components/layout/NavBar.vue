@@ -63,16 +63,17 @@ const links = [
 
 .masthead__link:hover { color: var(--color-text-secondary); }
 
-/* Opening sequence, step 1: the masthead rule is drawn edge to edge */
+/* Opening sequence, step 1: the masthead rule is drawn edge to edge —
+   after the intro name has landed, when the intro plays */
 @media (prefers-reduced-motion: no-preference) {
   .masthead__inner::after {
     transform-origin: left;
-    animation: rule-draw 900ms var(--ease-out-expo) both;
+    animation: rule-draw 900ms var(--ease-out-expo) var(--intro-offset, 0ms) both;
   }
 
   .masthead__identity,
   .masthead__nav {
-    animation: fade-in 500ms var(--ease-out-expo) 100ms both;
+    animation: fade-in 500ms var(--ease-out-expo) calc(var(--intro-offset, 0ms) + 100ms) both;
   }
 }
 

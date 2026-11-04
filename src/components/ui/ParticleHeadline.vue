@@ -5,6 +5,7 @@
 // pixel for pixel; on load they gather from a smear, and the pointer brushes
 // them aside like grain — each tile carries its own piece of letterform.
 import { ref, onMounted, onUnmounted } from 'vue'
+import { introOffset } from '../../utils/intro.js'
 
 const props = defineProps({
   lines: { type: Array, required: true },
@@ -21,7 +22,8 @@ const textHidden = ref(enabled) // canvas draws the text while it is active
 
 // ── Tuning ────────────────────────────────────────────────────────────────
 const PAD         = 80     // canvas bleed around the headline (css px)
-const INTRO_DELAY = 200    // ms, lines up with the masthead rule
+// ms; lines up with the masthead rule, or starts as the intro backdrop clears
+const INTRO_DELAY = 200 + Math.max(0, introOffset - 350)
 const INTRO_SPAN  = 560    // ms of left → right stagger in the gather
 const DRAG        = 0.86   // velocity kept per frame while grain is carried
 const REST_EPS    = 0.35   // device px; closer than this snaps home
@@ -29,7 +31,7 @@ const RADIAL      = 1.6    // push away from the pointer
 const WAKE        = 0.42   // push along the pointer's direction of travel
 const MAX_SPEED   = 28     // device px per frame
 
-let ctx, layer, raf, io, ro, resizeTimer
+let ctx, layer, raf, io, ro, resizeTimer, sampledSize = ''
 let W = 0, H = 0, dpr = 1, tile = 2
 let running = false, inView = true, lastT = 0, startT = 0, introDone = false
 
@@ -48,6 +50,7 @@ function sample({ intro }) {
   const root = rootEl.value, h1 = h1El.value, canvas = canvasEl.value
   const rootRect = root.getBoundingClientRect()
   const style = getComputedStyle(h1)
+  sampledSize = `${rootRect.width}x${rootRect.height}`
 
   dpr = Math.min(window.devicePixelRatio || 1, 2)
   const cssW = rootRect.width + PAD * 2
@@ -277,6 +280,9 @@ function onResize() {
   clearTimeout(resizeTimer)
   resizeTimer = setTimeout(() => {
     if (!ctx) return
+    // ResizeObserver also fires once on observe; only resample on a real change
+    const r = rootEl.value.getBoundingClientRect()
+    if (`${r.width}x${r.height}` === sampledSize) return
     sample({ intro: false })
     draw()
   }, 150)
