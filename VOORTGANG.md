@@ -14,10 +14,12 @@
 - 3D-viz, UnifiedViz, scrollytelling + deps (`d3`, `scrollama`, `3d-force-graph`) verwijderd; 3D bewaard op `feature/3d-force-graph` (labeltweak lokaal gecommit, niet gepusht)
 - Visueel gecheckt op 1440px en 390px
 - Volle-breedte hairlines, fixed masthead, sticky chapter registers
-- Motion "drukproef": openingssequentie (rule draw, headline line-mask, frame uncover), `v-reveal` directive (rule / frame / row), glyph-nudge hover; reduced-motion = statisch
+- Motion "drukproef": openingssequentie, `v-reveal` directive (rule / frame / row, herhaalt bij elke binnenkomst), glyph-nudge hover; reduced-motion = statisch
+- `ParticleHeadline.vue`: hero-headline als korrel (tegels die het lettermateriaal dragen) — gather bij laden, cursor-veeg zonder bounce; geïnspireerd op Gather, eigen implementatie
+- `IntroOverlay.vue`: naam die landt in de masthead, eenmalig per sessie
 
 **Stopped at:**
-Re-skin staat, build groen. Nog niet gemerged naar `main`. Content bevat placeholders.
+Re-skin + motion staan op `feature/studio-mono`, build groen, niet gepusht en niet gemerged. Content bevat nog placeholders. Opening bij eerste bezoek duurt ±3,5s — evalueren na device-test.
 
 ---
 
@@ -28,7 +30,9 @@ Re-skin staat, build groen. Nog niet gemerged naar `main`. Content bevat placeho
 - [ ] Featured projects (`featuredProjectIds`) en spotlight bevestigen
 - [ ] Projectbeelden + portret toevoegen (`ProjectFrame` accepteert `src`); eventueel `url` per project voor de ↗-knoppen
 - [ ] Final copy nalezen (hero, about, contact)
-- [ ] ParticleHeadline testen op echte devices (iPhone, oudere laptop) — enkel headless gemeten
+- [ ] ParticleHeadline + intro testen op echte devices (iPhone, oudere laptop) — enkel headless gemeten
+- [ ] Opruimen: stash `backup WIP before studio-mono` droppen, schermopname `.mov` uit projectmap verwijderen
+- [ ] Optioneel: `/impeccable polish` als laatste pass, `/impeccable init` voor PRODUCT.md
 - [ ] `feature/studio-mono` mergen naar `main` en deployen
 - [ ] Beslissen: `feature/3d-force-graph` behouden, inpassen of archiveren
 
@@ -39,7 +43,7 @@ Re-skin staat, build groen. Nog niet gemerged naar `main`. Content bevat placeho
 - [x] Domeinnaam koppelen aan Vercel (DNS configureren bij registrar)
 - [ ] Final copy en persoonlijke content
 - [ ] Responsive: verdere mobile polish na QA
-- [ ] Morph verfijnen indien nodig na QA
+- [ ] Hero-trackers met echte data (indien drift/trackers ooit terugkomen)
 
 ---
 
