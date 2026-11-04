@@ -196,7 +196,6 @@ img, svg {
 /* ── Motion — "press proof": elements are set into place, never flung ────── */
 @keyframes rule-draw     { from { transform: scaleX(0); } }
 @keyframes fade-in       { from { opacity: 0; } }
-@keyframes line-rise     { from { transform: translateY(105%); } }
 /* clip-path can't interpolate to `none`, so both ends are explicit insets */
 @keyframes frame-uncover { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
 

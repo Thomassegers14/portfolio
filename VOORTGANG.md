@@ -28,6 +28,8 @@ Re-skin staat, build groen. Nog niet gemerged naar `main`. Content bevat placeho
 - [ ] Featured projects (`featuredProjectIds`) en spotlight bevestigen
 - [ ] Projectbeelden + portret toevoegen (`ProjectFrame` accepteert `src`); eventueel `url` per project voor de ↗-knoppen
 - [ ] Final copy nalezen (hero, about, contact)
+- [ ] Trackers in de hero: later echte data tonen i.p.v. abstracte coördinaten (`ParticleHeadline.vue` → `updateTrackers`)
+- [ ] ParticleHeadline testen op echte devices (iPhone, oudere laptop) — enkel headless gemeten
 - [ ] `feature/studio-mono` mergen naar `main` en deployen
 - [ ] Beslissen: `feature/3d-force-graph` behouden, inpassen of archiveren
 

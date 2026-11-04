@@ -2,6 +2,7 @@
 import site from '../../assets/data/site.json'
 import dotUrl from '../../assets/icons/status-dot.svg'
 import ProjectFrame from '../ui/ProjectFrame.vue'
+import ParticleHeadline from '../ui/ParticleHeadline.vue'
 import { projectById, yearRange } from '../../utils/projects.js'
 
 const spotlight = projectById(site.hero.spotlightProjectId)
@@ -16,15 +17,7 @@ const spotlight = projectById(site.hero.spotlightProjectId)
     </div>
 
     <div class="intro__hero">
-      <h1 class="headline headline--hero intro__headline" :aria-label="site.hero.headline.join(' ')">
-        <span
-          v-for="(line, i) in site.hero.headline"
-          :key="i"
-          class="intro__line"
-          :style="{ '--line': i }"
-          aria-hidden="true"
-        ><span>{{ line }}</span></span>
-      </h1>
+      <ParticleHeadline :lines="site.hero.headline" />
 
       <aside v-if="spotlight" class="intro__spotlight">
         <div class="intro__caption-row mono-data text-secondary">
@@ -114,23 +107,9 @@ const spotlight = projectById(site.hero.spotlightProjectId)
 }
 
 /* ── Opening sequence ────────────────────────────────────────────────────
-   Masthead rule draws (NavBar) → headline is set line by line from a mask →
-   spotlight frame uncovers → registers and note settle in. ~1.1s total. */
-.intro__line {
-  display: block;
-  overflow: hidden;
-  /* Room for glyph overshoot inside the mask, without changing line spacing */
-  padding: 0.04em 0 0.08em;
-  margin: -0.04em 0 -0.08em;
-}
-
-.intro__line > span { display: block; }
-
+   Masthead rule draws (NavBar) → headline gathers from particles
+   (ParticleHeadline) → spotlight frame uncovers → registers settle in. */
 @media (prefers-reduced-motion: no-preference) {
-  .intro__line > span {
-    animation: line-rise 800ms var(--ease-out-expo) calc(200ms + var(--line) * 90ms) both;
-  }
-
   .intro__register {
     animation: fade-in 500ms var(--ease-out-expo) 250ms both;
   }

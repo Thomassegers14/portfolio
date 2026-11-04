@@ -258,6 +258,8 @@ Chronological log of all work sessions.
 - `CLAUDE.md` bijgewerkt naar nieuwe stack en structuur
 - Volle-breedte section rules (`.rule-top` / `.rule-bottom`), fixed masthead, sticky chapter registers
 - Motion via `/impeccable animate`: openingssequentie ~1,1s, scroll-reveals via `src/directives/reveal.js`, hover-nudge op ↗/↓
+- Scroll-reveals herhalen bij elke binnenkomst (enter- en leave-observer)
+- `ParticleHeadline.vue`: canvas-deeltjes op de hero-headline, geïnspireerd op Gather (gather-intro, cursor-splash, drift, mono trackers)
 
 **Decisions made:**
 - Volledig monochroom: geen categoriekleuren meer
@@ -268,6 +270,9 @@ Chronological log of all work sessions.
 - Letter-spacing uit Figma gelezen als percentage (3 → 0.03em)
 - Motion ingetogen, zonder dependency; geen scroll-voortgangslijn in de sticky register (bewust weggelaten)
 - clip-path animaties altijd met expliciete `inset()` eindwaarde — `none` interpoleert niet
+- Gather zelf niet gebruikt: Lite heeft geen export en werkt op beelden; eigen canvas-implementatie, geen code overgenomen
+- In rust de echte h1 tonen; deeltjes alleen zichtbaar wanneer verplaatst (crisp typografie blijft)
+- Trackers voorlopig abstracte coördinaten; echte data later
 
 **Next session starts with:** dummy-projecten opruimen, `site.json` invullen, beelden, merge naar `main`
 
