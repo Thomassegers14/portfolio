@@ -226,22 +226,23 @@ img, svg {
   .reveal-pending[data-reveal='frame'] { clip-path: inset(0 0 100% 0); }
   .reveal-pending[data-reveal='row'] { opacity: 0; transform: translateY(6px); }
 
-  .reveal-run[data-reveal='rule']::before {
+  /* `html` prefix outranks component transitions (e.g. row hover) while running */
+  html .reveal-run[data-reveal='rule']::before {
     transform-origin: left;
     transition: transform 900ms var(--ease-out-expo) var(--reveal-delay, 0ms);
   }
 
-  .reveal-run[data-reveal='rule'] > *,
-  .reveal-run[data-reveal='frame'] > * {
+  html .reveal-run[data-reveal='rule'] > *,
+  html .reveal-run[data-reveal='frame'] > * {
     transition: opacity 400ms var(--ease-out-expo) calc(var(--reveal-delay, 0ms) + 300ms);
   }
 
-  .reveal-run[data-reveal='frame'] {
+  html .reveal-run[data-reveal='frame'] {
     clip-path: inset(0 0 0 0);
     transition: clip-path 900ms var(--ease-out-expo) var(--reveal-delay, 0ms);
   }
 
-  .reveal-run[data-reveal='row'] {
+  html .reveal-run[data-reveal='row'] {
     transition: opacity 500ms var(--ease-out-expo) var(--reveal-delay, 0ms),
                 transform 500ms var(--ease-out-expo) var(--reveal-delay, 0ms);
   }
