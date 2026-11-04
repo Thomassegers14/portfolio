@@ -1,60 +1,68 @@
 <script setup>
+import site from '../../assets/data/site.json'
+import { projects } from '../../utils/projects.js'
+
 const links = [
-  { label: 'Home',     href: '#home'     },
-  { label: 'Skills',   href: '#skills'   },
-  { label: 'Projects', href: '#projects' },
+  { label: `Work (${String(projects.length).padStart(2, '0')})`, href: '#work'  },
+  { label: 'About',                                               href: '#about' },
 ]
 </script>
 
 <template>
-  <nav class="navbar">
-    <span class="navbar__name">Thomas Segers</span>
-    <div class="navbar__right">
-      <ul class="navbar__links">
-        <li v-for="link in links" :key="link.href">
-          <a :href="link.href" class="btn-pill">{{ link.label }}</a>
-        </li>
-      </ul>
-      <a href="#contact" class="btn-pill">Contact</a>
+  <nav class="masthead page">
+    <div class="masthead__inner">
+      <a href="#home" class="masthead__identity">
+        <span class="title-m">{{ site.name }}</span>
+        <span class="mono-data text-secondary masthead__practice">
+          <template v-for="(line, i) in site.role" :key="i">{{ line }}<br v-if="i < site.role.length - 1"></template>
+        </span>
+      </a>
+      <div class="masthead__nav">
+        <a v-for="link in links" :key="link.href" :href="link.href" class="label-m masthead__link">
+          {{ link.label }}
+        </a>
+        <a href="#contact" class="btn btn--ghost">Get in touch <span aria-hidden="true">↗</span></a>
+      </div>
     </div>
   </nav>
 </template>
 
 <style scoped>
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  height: var(--nav-height);
+.masthead__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--space-8);
-  /* background: color-mix(in srgb, var(--color-bg) 60%, transparent); */
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--color-border);
+  height: 96px;
+  border-bottom: var(--border-width) solid var(--color-border-default);
+  white-space: nowrap;
 }
 
-.navbar__name {
-  font-size: var(--text-sm);
-  font-family: var(--font-mono);
-  color: var(--color-text-muted);
-  letter-spacing: 0.05em;
-}
-
-.navbar__right {
+.masthead__identity {
   display: flex;
   align-items: center;
-  gap: var(--space-8);
+  gap: var(--spacing-7);
 }
 
-.navbar__links {
+.masthead__nav {
   display: flex;
-  gap: var(--space-2);
-  list-style: none;
+  align-items: center;
+  gap: var(--spacing-7);
 }
 
+.masthead__link {
+  transition: color var(--transition-fast) var(--easing-smooth);
+}
 
+.masthead__link:hover { color: var(--color-text-secondary); }
+
+@media (max-width: 768px) {
+  .masthead__practice { display: none; }
+  .masthead__nav      { gap: var(--spacing-5); }
+}
+
+@media (max-width: 640px) {
+  .masthead__inner { height: 72px; }
+  .masthead__link  { display: none; }
+  .masthead__nav .btn { padding: 0; }
+}
 </style>

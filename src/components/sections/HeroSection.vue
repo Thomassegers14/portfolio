@@ -1,110 +1,136 @@
 <script setup>
-// No viz here — UnifiedViz lives in the sticky right pane (App.vue)
+import site from '../../assets/data/site.json'
+import dotUrl from '../../assets/icons/status-dot.svg'
+import ProjectFrame from '../ui/ProjectFrame.vue'
+import { projectById, yearRange } from '../../utils/projects.js'
+
+const spotlight = projectById(site.hero.spotlightProjectId)
 </script>
 
 <template>
-  <section id="home" class="hero">
-    <div class="hero__inner">
+  <section id="home" class="intro page">
 
-      <p class="hero__eyebrow">Data Designer &amp; Data Analyst</p>
+    <div class="intro__register mono-data text-secondary">
+      <p>Portfolio / Selected work {{ yearRange }}</p>
+      <p>{{ site.location }}</p>
+    </div>
 
-      <h1 class="hero__title">
-        Turning<br>
-        data into<br>
-        stories.
+    <div class="intro__hero">
+      <h1 class="headline headline--hero intro__headline">
+        <template v-for="(line, i) in site.hero.headline" :key="i">{{ line }}<br v-if="i < site.hero.headline.length - 1"></template>
       </h1>
 
-      <p class="hero__sub">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas eaque id odio pariatur! Obcaecati cum eius enim accusamus ad molestias deserunt sed officiis hic ea aliquid excepturi illum, laborum sapiente.
-      </p>
-
-      <p class="hero__sub hero__sub--muted">
-        Journalism, visualization, and design —<br>
-        three lenses on the same truth.
-      </p>
-
-      <a href="#skills" class="hero__cta btn-pill">Explore my work</a>
-
+      <aside v-if="spotlight" class="intro__spotlight">
+        <div class="intro__caption-row mono-data text-secondary">
+          <span>Latest work / {{ spotlight.typeLabel }}</span>
+          <span>{{ spotlight.ref }}</span>
+        </div>
+        <ProjectFrame ratio="432 / 296" />
+        <div class="intro__caption-row">
+          <span class="mono-data">{{ spotlight.title }} / {{ spotlight.year }}</span>
+          <a href="#work" class="icon-btn" :aria-label="`Go to ${spotlight.title}`">↗</a>
+        </div>
+      </aside>
     </div>
+
+    <div class="intro__note">
+      <a href="#work" class="intro__invitation">
+        <span class="icon-btn" aria-hidden="true">↓</span>
+        <span class="label-m">Selected work below</span>
+      </a>
+      <p class="body-m text-secondary intro__description">{{ site.hero.intro }}</p>
+      <div class="intro__availability">
+        <img :src="dotUrl" alt="" class="status-dot" width="5" height="5">
+        <p class="mono-data">
+          <template v-for="(line, i) in site.hero.availability" :key="i">{{ line }}<br v-if="i < site.hero.availability.length - 1"></template>
+        </p>
+      </div>
+    </div>
+
   </section>
 </template>
 
 <style scoped>
-.hero {
-  min-height: calc(100dvh - var(--nav-height));
+/* ── Edition register ────────────────────────────────────────────────────── */
+.intro__register {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-5);
+  padding: 28px 0 52px;
+}
+
+/* ── Editorial hero ──────────────────────────────────────────────────────── */
+.intro__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 816fr) minmax(0, 432fr);
+  gap: 64px;
+  align-items: end;
+}
+
+.intro__spotlight {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+  padding-bottom: var(--spacing-3);
+}
+
+.intro__caption-row {
   display: flex;
   align-items: center;
-  padding: var(--space-16) var(--space-12);
+  justify-content: space-between;
+  gap: var(--spacing-5);
 }
 
-.hero__inner {
-  max-width: 520px;
+/* ── Introduction note ───────────────────────────────────────────────────── */
+.intro__note {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 496px) minmax(0, 1fr);
+  gap: 64px;
+  align-items: end;
+  padding: 44px 0 56px;
 }
 
-/* ── Eyebrow ─────────────────────────────────────────────────────────────── */
-.hero__eyebrow {
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
-  color: var(--color-primary);
-  margin-bottom: var(--space-6);
+.intro__invitation {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--spacing-5);
 }
 
-.hero__eyebrow::before {
-  content: '';
-  display: inline-block;
-  width: 28px;
-  height: 1px;
-  background: var(--color-primary);
-  flex-shrink: 0;
+.intro__invitation:hover .icon-btn {
+  border-color: var(--color-border-strong);
+  background: var(--color-bg-hover);
 }
 
-/* ── Display title ───────────────────────────────────────────────────────── */
-.hero__title {
-  font-family: var(--font-serif);
-  font-size: var(--text-display);
-  font-weight: 200;
-  line-height: 0.8;
-  letter-spacing: -0.02em;
-  color: var(--color-text);
-  margin-bottom: var(--space-8);
+.intro__availability {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
 }
 
-.hero__title em {
-  font-style: italic;
-  color: var(--color-primary);
-}
-
-/* ── Sub copy ────────────────────────────────────────────────────────────── */
-.hero__sub {
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-weight: 300;
-  color: var(--color-text);
-  line-height: 1.65;
-  margin-bottom: var(--space-12);
-}
-
-.hero__sub--muted {
-  color: var(--color-text-muted);
-}
-
-/* ── Mobile ──────────────────────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  .hero {
-    padding: var(--space-8) var(--space-6);
-    align-items: flex-start;
-    padding-top: var(--space-12);
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .intro__note {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-7) var(--spacing-8);
   }
 
-  .hero__title {
-    font-size: clamp(2.4rem, 10vw, 3.2rem);
+  .intro__invitation { grid-column: 1 / -1; order: 1; }
+}
+
+@media (max-width: 900px) {
+  .intro__hero {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-8);
+  }
+}
+
+@media (max-width: 640px) {
+  .intro__register {
+    flex-direction: column;
+    gap: var(--spacing-3);
+    padding: var(--spacing-6) 0 var(--spacing-8);
   }
 
-  .hero__sub {
-    font-size: var(--text-lg);
-  }
+  .intro__note { grid-template-columns: 1fr; }
 }
 </style>

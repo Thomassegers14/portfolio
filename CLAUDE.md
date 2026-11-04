@@ -6,7 +6,9 @@
 **Why:** Showcase skills and projects in a visually compelling, data-driven way that reflects professional identity.
 **For whom:** Potential employers, clients, and collaborators in the data space.
 
-The site is built as a **single-page scrollytelling experience**. Visualizations are central — not decorative. The narrative unfolds through scroll-driven D3 animations that connect skills to projects.
+The site is a **single-page editorial portfolio** built on the **Studio Mono** design system (Figma: `D5rkjzHGo8vYrj4StDlLWT`, page "Example" → "Ellis Rowe — Light editorial landing page"). Monochrome ink-and-paper, hairline borders, square corners.
+
+The earlier D3 / 3D force-graph scrollytelling lives on branch `feature/3d-force-graph` and is not part of the current site.
 
 ---
 
@@ -14,12 +16,8 @@ The site is built as a **single-page scrollytelling experience**. Visualizations
 
 | Tool | Role |
 |---|---|
-| Vue 3 (Composition API + `<script setup>`) | UI framework, reactivity, component structure |
-| D3.js | All data visualizations (SVG-based) |
-| Scrollama.js | Scroll step detection for scrollytelling |
+| Vue 3 (Composition API + `<script setup>`) | UI framework, component structure |
 | Vite | Build tool |
-
-**D3 integration principle:** D3 owns the SVG and handles all rendering. Vue owns data flow and triggers D3 updates via watchers or composables. Never let Vue's reactivity system directly mutate D3-managed DOM nodes.
 
 ---
 
@@ -41,11 +39,10 @@ The site is built as a **single-page scrollytelling experience**. Visualizations
 
 | Section | Route anchor | Description |
 |---|---|---|
-| Hero | `#home` | Short intro, D3 visualization already visible in background |
-| Skills | `#skills` | Circle pack or force layout of skills; scroll-driven annotations |
-| Projects | `#projects` | Network visualization linking skills to projects |
-
-Navigation bar links to each anchor section.
+| Introduction | `#home` | Masthead, edition register, hero headline, spotlight project, intro note |
+| Selected work | `#work` | Featured project, staggered project pair, archive index of all other projects |
+| About | `#about` | Statement, two-column bio, capabilities from `skills.json` |
+| Contact | `#contact` | Invitation, email, socials, colophon status bar |
 
 ---
 
@@ -53,25 +50,29 @@ Navigation bar links to each anchor section.
 
 ```
 src/
-├── assets/data/
-│   ├── skills.json          # Skills with category, weight, and unique ID
-│   └── projects.json        # Projects with title, description, and linked skill IDs
+├── assets/
+│   ├── data/
+│   │   ├── site.json        # All copy & config: name, role, location, email, socials, featured project IDs
+│   │   ├── skills.json      # Skills with category and unique ID
+│   │   └── projects.json    # Projects with title, description, and linked skill IDs
+│   └── icons/               # Status dot SVGs exported from Figma
 ├── components/
-│   ├── charts/
-│   │   ├── SkillsViz.vue    # D3 circle pack / force layout for skills (section 1)
-│   │   └── ProjectNetwork.vue  # D3 network: skills ↔ projects (section 2)
 │   ├── layout/
-│   │   ├── NavBar.vue       # Fixed navigation with anchor links
-│   │   └── ScrollySection.vue  # Generic scrollytelling wrapper (sticky graphic + steps)
+│   │   ├── NavBar.vue           # Masthead: identity + nav
+│   │   ├── ChapterRegister.vue  # "01 / Selected work" section header with hairline
+│   │   └── StatusBar.vue        # Colophon footer
+│   ├── ui/
+│   │   └── ProjectFrame.vue     # Image slot with badge; grid-scaffold placeholder until imagery exists
 │   └── sections/
-│       ├── HeroSection.vue  # Short intro with background visualization
-│       ├── SkillsSection.vue   # Wraps SkillsViz + scroll step definitions
-│       └── ProjectsSection.vue # Wraps ProjectNetwork + scroll step definitions
-├── composables/
-│   ├── useScrollytelling.js # Scroll progress tracking and step detection via Scrollama
-│   └── useD3.js             # D3 lifecycle helpers: resize observer, cleanup on unmount
+│       ├── HeroSection.vue
+│       ├── WorkSection.vue
+│       ├── AboutSection.vue
+│       └── ContactSection.vue
+├── styles/
+│   ├── variables.css        # Studio Mono tokens (color, type, spacing, radius)
+│   └── base.css             # Reset, text styles (.title-l, .label-m, .mono-data…), .btn, .icon-btn, .badge
 └── utils/
-    └── d3.js                # Shared: color scales, layout presets, data transformation helpers
+    └── projects.js          # Project ordering, A—NN references, skill lookups
 ```
 
 ---
@@ -92,7 +93,7 @@ src/
 
 ## Design Principles
 
-- **Data-first:** Visualizations lead the narrative, copy supports them
-- **Smooth transitions:** D3 transitions should feel fluid (300–600ms, easing applied)
-- **Consistent visual language:** Shared color palette and typography across all charts
-- **Performance:** Keep SVG node count low; prefer canvas for large datasets if needed
+- **Studio Mono only:** use tokens from `variables.css` and text-style classes from `base.css`; no hard-coded colors or fonts
+- **Monochrome:** no accent colors — hierarchy through text alpha (primary / secondary / tertiary) and hairlines
+- **Square corners:** `radius-full` only for icon buttons and status dots
+- **Content in data:** copy lives in `site.json`, not in components

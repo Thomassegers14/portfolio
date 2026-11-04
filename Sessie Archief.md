@@ -243,3 +243,28 @@ Chronological log of all work sessions.
 **Next session starts with:** Beslissen of 3D branch naar main gaat, QA mobile, final copy
 
 ---
+
+## Session 11 — 2026-11-04
+
+**Goal:** Portfolio ombouwen naar het Studio Mono design system (Figma)
+
+**Done:**
+- Figma Foundations + Example-pagina uitgelezen (tokens, typografie, componenten, editorial layout)
+- Uncommitted WIP op `main` bleek identiek aan `origin/feature/3d-force-graph` op een labeltweak na; die tweak gecommit op lokale `feature/3d-force-graph`
+- Nieuwe branch `feature/studio-mono` vanaf de 3D-branch; 3D-viz en scrollytelling eruit
+- Tokens, fonts en globale component-classes volgens Studio Mono
+- Secties: Introduction (masthead, edition register, hero, spotlight, intro note), Selected work (featured, pair, archive index), About (statement, bio, capabilities), Contact (+ status bar)
+- Content gecentraliseerd in `site.json`; project-ordening en A—NN referenties in `utils/projects.js`
+- `CLAUDE.md` bijgewerkt naar nieuwe stack en structuur
+
+**Decisions made:**
+- Volledig monochroom: geen categoriekleuren meer
+- Structuur van het Figma-voorbeeld overgenomen; 3D-viz geparkeerd op eigen branch
+- Figma-foto's (mockups van een fictieve designer) niet overgenomen — grid-scaffold placeholder in de plaats
+- Projecten zonder `url` tonen geen ↗-knop (geen dode links)
+- Extra archieflijst onder de featured projects, zodat alle projecten zichtbaar blijven
+- Letter-spacing uit Figma gelezen als percentage (3 → 0.03em)
+
+**Next session starts with:** dummy-projecten opruimen, `site.json` invullen, beelden, merge naar `main`
+
+---

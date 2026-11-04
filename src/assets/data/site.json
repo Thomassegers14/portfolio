@@ -1,0 +1,32 @@
+{
+  "name": "Thomas Segers",
+  "role": ["Data designer", "& data analyst"],
+  "location": "Belgium / Working everywhere",
+  "email": "hello@example.com",
+  "socials": [
+    { "label": "GitHub", "url": "https://github.com/Thomassegers14" }
+  ],
+  "hero": {
+    "headline": ["Turning", "data into", "stories."],
+    "intro": "Journalism, visualization and design — three lenses on the same truth. I turn analysis into stories people actually read.",
+    "availability": ["Open to new collaborations", "Freelance & in-house"],
+    "spotlightProjectId": "proj-election-app"
+  },
+  "work": {
+    "note": "Charts with a reason to exist",
+    "featuredProjectIds": ["proj-gascrisis", "proj-nitrogen", "proj-trees"],
+    "closingNote": "Selected work, not a complete archive."
+  },
+  "about": {
+    "note": "From raw data to finished story",
+    "statement": ["Three lenses.", "One truth."],
+    "approach": "R is my primary tool for statistical computing, modeling and data wrangling, with SQL and Python close behind. D3.js and ggplot2 do the drawing — custom interactive SVGs for the web, publication-quality charts for print.",
+    "philosophy": "Data journalism, information design and visual narrative are the whole point: the skills that turn an analysis into something people actually read. Design tools and a bit of motion take care of the last mile."
+  },
+  "contact": {
+    "note": "Let's talk data",
+    "headline": ["Have data", "worth telling?"],
+    "intro": "A dataset, a question or a story that needs a shape. Tell me where you'd like to go — we'll work out how to get there.",
+    "colophon": "Turning data into stories."
+  }
+}

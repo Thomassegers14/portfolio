@@ -12,19 +12,12 @@ html {
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-sans);
-  line-height: 1.6;
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  line-height: 22px;
   -webkit-font-smoothing: antialiased;
-}
-
-main {
-  position: relative;
-}
-
-section {
-  padding: var(--section-pad-y) var(--space-8);
 }
 
 a {
@@ -32,34 +25,147 @@ a {
   text-decoration: none;
 }
 
-svg {
+img, svg {
   display: block;
 }
 
-/* ── Step cards — glass effect over 3D background ───────────────────────── */
-.step-card {
-  backdrop-filter: blur(12px);
-  background: color-mix(in srgb, var(--color-surface) 75%, transparent) !important;
+:focus-visible {
+  outline: var(--border-width) solid var(--color-border-strong);
+  outline-offset: 2px;
 }
 
-/* ── Button ──────────────────────────────────────────────────────────────── */
-.btn-pill {
+/* ── Page container ──────────────────────────────────────────────────────── */
+.page {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding-left: var(--page-gutter);
+  padding-right: var(--page-gutter);
+}
+
+/* ── Text styles (Figma: Foundations → Typography) ───────────────────────── */
+.display-l,
+.title-l,
+.title-m {
+  font-family: var(--font-family-display);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.display-l { font-size: 56px; line-height: 60px; letter-spacing: 0.03em;  }
+.title-l   { font-size: 32px; line-height: 36px; letter-spacing: 0.035em; }
+.title-m   { font-size: 20px; line-height: 24px; letter-spacing: 0.035em; }
+
+.body-m { font-family: var(--font-family-body); font-size: 14px; line-height: 22px; }
+.body-s { font-family: var(--font-family-body); font-size: 12px; line-height: 18px; }
+
+.label-m,
+.label-s,
+.eyebrow,
+.mono-data {
+  font-family: var(--font-family-mono);
+  text-transform: uppercase;
+}
+
+.label-m   { font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.06em; }
+.label-s   { font-size: 10px; line-height: 12px; font-weight: 600; letter-spacing: 0.06em; }
+.eyebrow   { font-size: 8px;  line-height: 10px; font-weight: 700; letter-spacing: 0.16em; }
+.mono-data { font-size: 10px; line-height: 12px; font-weight: 400; letter-spacing: 0.04em; }
+
+/* Large editorial headlines (hero, statements) */
+.headline {
+  font-family: var(--font-family-display);
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.headline--hero      { font-size: var(--text-hero);      line-height: 0.963; letter-spacing: -0.02em; }
+.headline--statement { font-size: var(--text-statement); line-height: 1.056; letter-spacing: -0.01em; }
+
+.text-secondary { color: var(--color-text-secondary); }
+.text-tertiary  { color: var(--color-text-tertiary);  }
+
+/* ── Button — Primary / Secondary / Ghost ────────────────────────────────── */
+.btn {
   display: inline-flex;
   align-items: center;
-  padding: var(--space-3) var(--space-6);
-  border: 1px solid var(--color-border-2);
-  border-radius: 0.56rem;
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-weight: 400;
+  justify-content: center;
+  gap: var(--spacing-3);
+  height: 36px;
+  padding: 0 var(--spacing-5);
+  border: var(--border-width) solid var(--color-border-default);
+  border-radius: var(--radius-none);
+  background: transparent;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-mono);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
   cursor: pointer;
-  transition: opacity var(--transition-fast) var(--easing-smooth),
-              box-shadow var(--transition-fast) var(--easing-smooth);
+  transition: border-color var(--transition-fast) var(--easing-smooth),
+              background-color var(--transition-fast) var(--easing-smooth),
+              color var(--transition-fast) var(--easing-smooth);
 }
 
-.btn-pill:hover {
-  opacity: 0.85;
-  box-shadow: -3px 3px 5px var(--color-shadow);
+.btn:hover { border-color: var(--color-border-strong); background: var(--color-bg-hover); }
+
+.btn--primary {
+  background: var(--color-bg-inverse);
+  border-color: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+}
+
+.btn--primary:hover { background: var(--color-text-secondary); }
+
+.btn--ghost {
+  border-color: transparent;
+  color: var(--color-text-secondary);
+}
+
+.btn--ghost:hover { border-color: transparent; background: none; color: var(--color-text-primary); }
+
+/* ── Icon button — 32px hairline circle with a text glyph ────────────────── */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border: var(--border-width) solid var(--color-border-default);
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  line-height: 22px;
+  cursor: pointer;
+  transition: border-color var(--transition-fast) var(--easing-smooth),
+              background-color var(--transition-fast) var(--easing-smooth);
+}
+
+.icon-btn:hover { border-color: var(--color-border-strong); background: var(--color-bg-hover); }
+
+/* ── Badge — tiny mono tag on imagery (Light tone) ───────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-1) var(--spacing-2);
+  border: var(--border-width) solid rgba(16, 18, 20, 0.12);
+  background: rgba(241, 242, 239, 0.72);
+  color: var(--ink-900);
+  font-family: var(--font-family-mono);
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ── Status dot ──────────────────────────────────────────────────────────── */
+.status-dot {
+  flex-shrink: 0;
 }

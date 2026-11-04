@@ -1,62 +1,69 @@
+/* Studio Mono design system — tokens mirror the Figma variable collections */
 :root {
-  /* ── Background ─────────────────────────────────────────────── */
-  --color-bg:         #141414;
-  --color-surface:    #12121a;
-  --color-surface-2:  #1a1a26;
-  --color-border:     #2a2a3a;
-  --color-border-2:  #424242;
+  /* ── Primitives ──────────────────────────────────────────────── */
+  --ink-950:   #0a0c0e;
+  --ink-900:   #101214;
+  --ink-700:   #1e2226;
+  --paper-50:  #f1f2ef;
 
-  /* ── Text ────────────────────────────────────────────────────── */
-  --color-text:       #f0f0f5;
-  --color-text-muted: #898989;
+  /* ── Color / Dark mode (default) ─────────────────────────────── */
+  --color-bg-base:        var(--ink-900);
+  --color-bg-sunken:      var(--ink-950);
+  --color-bg-raised:      var(--ink-700);
+  --color-bg-overlay:     rgba(10, 12, 14, 0.78);
+  --color-bg-hover:       rgba(241, 242, 239, 0.06);
+  --color-bg-inverse:     var(--paper-50);
 
-  /* ── Skill category colors (match skills.json categories) ────── */
-  --color-analysis:      #6366f1;  /* indigo   */
-  --color-visualization: #8EDD8E;  /* green    */
-  --color-geospatial:    #34d399;  /* emerald  */
-  --color-web:           #f59e0b;  /* amber    */
-  --color-design:        #f43f5e;  /* rose     */
-  --color-storytelling:  #a78bfa;  /* violet   */
+  --color-text-primary:   var(--paper-50);
+  --color-text-secondary: rgba(241, 242, 239, 0.72);
+  --color-text-tertiary:  rgba(241, 242, 239, 0.50);
+  --color-text-inverse:   var(--ink-900);
 
-  /* ── Primary accent ─────────────────────────────────────────── */
-  --color-primary: #8EDD8E;
-  --color-shadow: #8ddd8d1a;
+  --color-border-default: rgba(241, 242, 239, 0.24);
+  --color-border-subtle:  rgba(241, 242, 239, 0.12);
+  --color-border-strong:  rgba(241, 242, 239, 0.72);
+
+  --color-grid-line:      rgba(241, 242, 239, 0.06);
 
   /* ── Typography ──────────────────────────────────────────────── */
-  --font-sans:   'DM Sans', system-ui, sans-serif;
-  --font-serif:  'Crimson Pro', Georgia, serif;
-  --font-mono:   'JetBrains Mono', 'Fira Code', monospace;
+  --font-family-display: 'Newsreader', Georgia, serif;
+  --font-family-body:    'Geist', system-ui, sans-serif;
+  --font-family-mono:    'Geist Mono', ui-monospace, monospace;
 
-  --text-xs:      0.75rem;
-  --text-sm:      0.875rem;
-  --text-base:    1rem;
-  --text-lg:      1.125rem;
-  --text-xl:      1.25rem;
-  --text-2xl:     1.5rem;
-  --text-3xl:     1.875rem;
-  --text-4xl:     2.25rem;
-  --text-5xl:     3rem;
-  --text-display: clamp(3.2rem, 6vw, 5.5rem);
+  /* Editorial display sizes — fluid versions of the 108/104 and 72/76 frames */
+  --text-hero:      clamp(3rem, 7.5vw, 6.75rem);
+  --text-statement: clamp(2.5rem, 5vw, 4.5rem);
 
   /* ── Spacing ─────────────────────────────────────────────────── */
-  --space-1:  0.25rem;
-  --space-2:  0.5rem;
-  --space-3:  0.75rem;
-  --space-4:  1rem;
-  --space-6:  1.5rem;
-  --space-8:  2rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-24: 6rem;
+  --spacing-0: 0;
+  --spacing-1: 2px;
+  --spacing-2: 4px;
+  --spacing-3: 8px;
+  --spacing-4: 12px;
+  --spacing-5: 16px;
+  --spacing-6: 24px;
+  --spacing-7: 32px;
+  --spacing-8: 48px;
+
+  /* ── Radius & border ─────────────────────────────────────────── */
+  --radius-none: 0;
+  --radius-full: 999px;
+  --border-width: 1px;
 
   /* ── Layout ──────────────────────────────────────────────────── */
-  --nav-height:    80px;
-  --max-width:     1200px;
-  --section-pad-y: var(--space-24);
+  --page-max-width: 1440px;
+  --page-gutter:    64px;
 
-  /* ── D3 transitions ──────────────────────────────────────────── */
-  --transition-fast:   200ms;
-  --transition-base:   400ms;
-  --transition-slow:   700ms;
-  --easing-smooth:     cubic-bezier(0.4, 0, 0.2, 1);
+  /* ── Motion ──────────────────────────────────────────────────── */
+  --transition-fast: 200ms;
+  --transition-base: 400ms;
+  --easing-smooth:   cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 1100px) {
+  :root { --page-gutter: 40px; }
+}
+
+@media (max-width: 640px) {
+  :root { --page-gutter: 20px; }
 }

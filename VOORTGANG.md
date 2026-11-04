@@ -2,37 +2,32 @@
 
 ## Last Session
 
-**Date:** 2026-05-19
-**Session:** 10
+**Date:** 2026-11-04
+**Session:** 11
 **What was done:**
-- Ongebruikte bestanden verwijderd: `SkillsViz.vue`, `ProjectNetwork.vue`, `ScrollySection.vue`, `useD3.js` (532 regels weg, build groen)
-- Hero sectie volledig herschreven op basis van referentiedesign (13g.fr):
-  - Crimson Pro als display-font (serif), DM Sans vervangt Inter als sans-serif
-  - Grote serif headline met cursief groen accent-woord
-  - Eyebrow label met groene streep prefix
-  - Subtekst in twee lagen (body + muted)
-- Design tokens uitgebreid in `variables.css`:
-  - `--font-serif: 'Crimson Pro'`, `--font-sans: 'DM Sans'`
-  - `--color-primary: #8EDD8E`, `--color-border-2`, `--color-shadow`
-  - `--text-display: clamp(3.2rem, 6vw, 5.5rem)`
-- Google Fonts geladen in `index.html`: Crimson Pro, DM Sans, JetBrains Mono
-- Globale `.btn-pill` stijl aangemaakt in `base.css`:
-  - Donkere achtergrond, `border-radius: 0.56rem`, border, shadow bij hover
-  - Gebruikt door hero CTA én alle navbar-links incl. Contact-knop
-- NavBar: Contact-knop toegevoegd, alle links (incl. Contact) gebruiken `.btn-pill`
+- Portfolio omgebouwd naar het **Studio Mono** design system (Figma `D5rkjzHGo8vYrj4StDlLWT`), op branch `feature/studio-mono`
+- Structuur overgenomen van het Figma-voorbeeld: Introduction → Selected work → About → Contact + colofon
+- Tokens 1-op-1 uit Figma: kleuren (dark mode), Newsreader / Geist / Geist Mono, spacing 0–48, radius none/full
+- Globale componenten: `.btn` (primary/secondary/ghost), `.icon-btn`, `.badge`, tekststijlen
+- Nieuwe componenten: `ChapterRegister`, `StatusBar`, `ProjectFrame`, `WorkSection`, `AboutSection`, `ContactSection`
+- Alle copy in `site.json`
+- 3D-viz, UnifiedViz, scrollytelling + deps (`d3`, `scrollama`, `3d-force-graph`) verwijderd; 3D bewaard op `feature/3d-force-graph` (labeltweak lokaal gecommit, niet gepusht)
+- Visueel gecheckt op 1440px en 390px
 
 **Stopped at:**
-3D force graph branch volledig uitgewerkt op `feature/3d-force-graph`. Nodes, materials, DoF, labels en links werken. Volgende stap: branch mergen of verder polijsten, dan QA op main.
+Re-skin staat, build groen. Nog niet gemerged naar `main`. Content bevat placeholders.
 
 ---
 
 ## TODO Next Session
 
-- [ ] Beslissen: `feature/3d-force-graph` mergen naar `main` of verder polijsten
-- [ ] Browser QA op mobile (echte device of DevTools)
-- [ ] Simulatie freeze na warmup (stopSimulation zodra alpha < minAlpha)
-- [ ] Final copy — lorem ipsum in hero vervangen door echte tekst
-- [ ] `ProjectsSection.vue` copy updaten (staat nog op "Eleven projects")
+- [ ] **10 dummy-projecten uit `projects.json` halen** (toegevoegd in S10 voor de 3D-graph) — staan nu in de archieflijst
+- [ ] `site.json` invullen: e-mail (staat op `hello@example.com`), locatie, beschikbaarheid, LinkedIn
+- [ ] Featured projects (`featuredProjectIds`) en spotlight bevestigen
+- [ ] Projectbeelden + portret toevoegen (`ProjectFrame` accepteert `src`); eventueel `url` per project voor de ↗-knoppen
+- [ ] Final copy nalezen (hero, about, contact)
+- [ ] `feature/studio-mono` mergen naar `main` en deployen
+- [ ] Beslissen: `feature/3d-force-graph` behouden, inpassen of archiveren
 
 ---
 
@@ -46,6 +41,8 @@
 ---
 
 ## Completed
+
+- [x] (S11) Studio Mono re-skin + editorial structuur
 
 - [x] (S1) Define project concept, tech stack, folder structure, documentation
 - [x] (S2) Vite + Vue 3 scaffold + npm install
