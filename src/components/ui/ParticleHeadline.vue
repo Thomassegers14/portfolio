@@ -23,7 +23,7 @@ const textHidden = ref(enabled) // canvas draws the text while it is active
 const PAD         = 80     // canvas bleed around the headline (css px)
 const INTRO_DELAY = 200    // ms, lines up with the masthead rule
 const INTRO_SPAN  = 560    // ms of left → right stagger in the gather
-const DAMPING     = 0.88
+const DRAG        = 0.86   // velocity kept per frame while grain is carried
 const REST_EPS    = 0.35   // device px; closer than this snaps home
 const RADIAL      = 1.6    // push away from the pointer
 const WAKE        = 0.42   // push along the pointer's direction of travel
@@ -34,7 +34,7 @@ let W = 0, H = 0, dpr = 1, tile = 2
 let running = false, inView = true, lastT = 0, startT = 0, introDone = false
 
 // Tiles (structure of arrays, device px)
-let n = 0, hx, hy, px, py, vx, vy, mass, spring, delay
+let n = 0, hx, hy, px, py, vx, vy, mass, homing, delay
 let textLeft = 0, textRight = 0
 
 // Pointer in canvas device px, with smoothed velocity
@@ -124,12 +124,12 @@ function sample({ intro }) {
   hx = Float32Array.from(xs); hy = Float32Array.from(ys)
   px = Float32Array.from(xs); py = Float32Array.from(ys)
   vx = new Float32Array(n); vy = new Float32Array(n)
-  mass = new Float32Array(n); spring = new Float32Array(n); delay = new Float32Array(n)
+  mass = new Float32Array(n); homing = new Float32Array(n); delay = new Float32Array(n)
 
   const span = Math.max(1, textRight - textLeft)
   for (let i = 0; i < n; i++) {
     mass[i]   = 0.6 + Math.random() * 0.9
-    spring[i] = 0.028 + Math.random() * 0.04
+    homing[i] = 0.05 + Math.random() * 0.04
     if (intro) {
       // Smeared to the right with a little shear; gathers left → right
       const r = Math.random()
@@ -150,7 +150,7 @@ function step(t) {
   lastT = t
   const f = dt / 16.7
   const elapsed = t - startT
-  const damp = Math.pow(DAMPING, f)
+  const drag = Math.pow(DRAG, f)
 
   // Pointer velocity fades when the pointer rests
   pointer.vx *= Math.pow(0.82, f)
@@ -164,8 +164,7 @@ function step(t) {
   for (let i = 0; i < n; i++) {
     if (elapsed < INTRO_DELAY + delay[i]) { moving = true; continue }
 
-    let ax = (hx[i] - px[i]) * spring[i]
-    let ay = (hy[i] - py[i]) * spring[i]
+    let ax = 0, ay = 0
 
     if (stir) {
       const ox = px[i] - pointer.x, oy = py[i] - pointer.y
@@ -180,12 +179,19 @@ function step(t) {
       }
     }
 
-    vx[i] = (vx[i] + ax * f) * damp
-    vy[i] = (vy[i] + ay * f) * damp
+    // Carried: the pointer's push decays through drag
+    vx[i] = (vx[i] + ax * f) * drag
+    vy[i] = (vy[i] + ay * f) * drag
     const sp = Math.abs(vx[i]) + Math.abs(vy[i])
     if (sp > MAX_SPEED) { vx[i] *= MAX_SPEED / sp; vy[i] *= MAX_SPEED / sp }
     px[i] += vx[i] * f
     py[i] += vy[i] * f
+
+    // Homing: an exponential approach with no velocity of its own, so grain
+    // settles back like sand and can never overshoot (a spring would bounce)
+    const home = 1 - Math.pow(1 - homing[i], f)
+    px[i] += (hx[i] - px[i]) * home
+    py[i] += (hy[i] - py[i]) * home
 
     const ox = px[i] - hx[i], oy = py[i] - hy[i]
     if (Math.abs(ox) + Math.abs(oy) < REST_EPS && sp < 0.05) {
