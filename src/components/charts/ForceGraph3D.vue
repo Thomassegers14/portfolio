@@ -49,8 +49,8 @@ const matMap = new Map()
 
 // ── Label sprite factory ───────────────────────────────────────────────────
 function makeLabel(text) {
-  const dpr      = 3          // render at 3× for sharp text at any display size
-  const fontSize = 5
+  const dpr      = 20          // render at 3× for sharp text at any display size
+  const fontSize = 8
   const paddingX = 5
   const paddingY = 5
   const radius   = 3
