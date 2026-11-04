@@ -53,6 +53,7 @@
   /* ── Layout ──────────────────────────────────────────────────── */
   --page-max-width: 1440px;
   --page-gutter:    64px;
+  --masthead-height: 96px;
 
   /* ── Motion ──────────────────────────────────────────────────── */
   --transition-fast: 200ms;
@@ -65,5 +66,5 @@
 }
 
 @media (max-width: 640px) {
-  :root { --page-gutter: 20px; }
+  :root { --page-gutter: 20px; --masthead-height: 72px; }
 }

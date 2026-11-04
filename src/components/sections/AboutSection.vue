@@ -46,7 +46,8 @@ import { skillCategories } from '../../utils/projects.js'
 
 <style scoped>
 .about {
-  background: var(--color-bg-sunken);
+  --section-bg: var(--color-bg-sunken);
+  background: var(--section-bg);
 }
 
 .about__inner {

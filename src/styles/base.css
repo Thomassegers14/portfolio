@@ -8,6 +8,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--masthead-height);
   font-size: 16px;
 }
 
@@ -19,6 +20,7 @@ body {
   line-height: 22px;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip; /* full-bleed rules use 100vw, which includes the scrollbar */
+  padding-top: var(--masthead-height); /* room for the fixed masthead */
 }
 
 a {

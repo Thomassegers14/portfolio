@@ -9,8 +9,8 @@ const links = [
 </script>
 
 <template>
-  <nav class="masthead page">
-    <div class="masthead__inner rule-bottom">
+  <nav class="masthead">
+    <div class="masthead__inner page rule-bottom">
       <a href="#home" class="masthead__identity">
         <span class="title-m">{{ site.name }}</span>
         <span class="mono-data text-secondary masthead__practice">
@@ -28,11 +28,20 @@ const links = [
 </template>
 
 <style scoped>
+.masthead {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--color-bg-base);
+}
+
 .masthead__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 96px;
+  height: var(--masthead-height);
   white-space: nowrap;
 }
 
@@ -60,7 +69,6 @@ const links = [
 }
 
 @media (max-width: 640px) {
-  .masthead__inner { height: 72px; }
   .masthead__link  { display: none; }
   .masthead__nav .btn { padding: 0; }
 }
