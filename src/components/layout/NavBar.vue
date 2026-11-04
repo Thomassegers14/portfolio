@@ -10,7 +10,7 @@ const links = [
 
 <template>
   <nav class="masthead page">
-    <div class="masthead__inner">
+    <div class="masthead__inner rule-bottom">
       <a href="#home" class="masthead__identity">
         <span class="title-m">{{ site.name }}</span>
         <span class="mono-data text-secondary masthead__practice">
@@ -33,7 +33,6 @@ const links = [
   align-items: center;
   justify-content: space-between;
   height: 96px;
-  border-bottom: var(--border-width) solid var(--color-border-default);
   white-space: nowrap;
 }
 

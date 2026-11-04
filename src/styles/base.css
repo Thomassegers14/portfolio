@@ -18,6 +18,7 @@ body {
   font-size: 14px;
   line-height: 22px;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip; /* full-bleed rules use 100vw, which includes the scrollbar */
 }
 
 a {
@@ -41,6 +42,26 @@ img, svg {
   padding-left: var(--page-gutter);
   padding-right: var(--page-gutter);
 }
+
+/* ── Full-bleed rules — hairlines that run edge to edge, ignoring the gutter ─ */
+.rule-top,
+.rule-bottom {
+  position: relative;
+}
+
+.rule-top::before,
+.rule-bottom::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  border-top: var(--border-width) solid var(--rule-color, var(--color-border-default));
+  pointer-events: none;
+}
+
+.rule-top::before    { top: 0;    }
+.rule-bottom::after  { bottom: 0; }
 
 /* ── Text styles (Figma: Foundations → Typography) ───────────────────────── */
 .display-l,

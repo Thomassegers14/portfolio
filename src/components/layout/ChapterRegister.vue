@@ -6,7 +6,7 @@ defineProps({
 </script>
 
 <template>
-  <header class="chapter-register">
+  <header class="chapter-register rule-top">
     <h2 class="label-m">{{ label }}</h2>
     <p v-if="note" class="mono-data text-secondary">{{ note }}</p>
   </header>
@@ -19,7 +19,6 @@ defineProps({
   justify-content: space-between;
   gap: var(--spacing-5);
   padding: var(--spacing-5) 0;
-  border-top: var(--border-width) solid var(--color-border-default);
 }
 
 @media (max-width: 640px) {

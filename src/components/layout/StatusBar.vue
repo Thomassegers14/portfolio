@@ -9,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-  <footer class="status-bar">
+  <footer class="status-bar rule-top">
     <div class="status-bar__left">
       <img :src="dotUrl" alt="" class="status-dot" width="6" height="6">
       <span class="mono-data text-secondary">{{ status }}</span>
@@ -28,7 +28,7 @@ defineProps({
   height: 32px;
   padding: 0 var(--spacing-5);
   background: var(--color-bg-base);
-  border-top: var(--border-width) solid var(--color-border-subtle);
+  --rule-color: var(--color-border-subtle);
   white-space: nowrap;
 }
 

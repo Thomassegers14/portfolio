@@ -82,7 +82,7 @@ const [lead, ...pair] = featuredProjects
     </div>
 
     <!-- ── Closing note ──────────────────────────────────────────────────── -->
-    <div class="work__closing">
+    <div class="work__closing rule-top">
       <p class="mono-data text-secondary">{{ site.work.closingNote }}</p>
       <a href="#contact" class="btn btn--ghost">More work on request <span aria-hidden="true">↗</span></a>
     </div>
@@ -192,7 +192,7 @@ const [lead, ...pair] = featuredProjects
   justify-content: space-between;
   gap: var(--spacing-5);
   padding-top: var(--spacing-6);
-  border-top: var(--border-width) solid var(--color-border-subtle);
+  --rule-color: var(--color-border-subtle);
 }
 
 .work__closing .btn { padding-right: 0; }
