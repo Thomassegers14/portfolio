@@ -256,6 +256,8 @@ Chronological log of all work sessions.
 - Secties: Introduction (masthead, edition register, hero, spotlight, intro note), Selected work (featured, pair, archive index), About (statement, bio, capabilities), Contact (+ status bar)
 - Content gecentraliseerd in `site.json`; project-ordening en A—NN referenties in `utils/projects.js`
 - `CLAUDE.md` bijgewerkt naar nieuwe stack en structuur
+- Volle-breedte section rules (`.rule-top` / `.rule-bottom`), fixed masthead, sticky chapter registers
+- Motion via `/impeccable animate`: openingssequentie ~1,1s, scroll-reveals via `src/directives/reveal.js`, hover-nudge op ↗/↓
 
 **Decisions made:**
 - Volledig monochroom: geen categoriekleuren meer
@@ -264,6 +266,8 @@ Chronological log of all work sessions.
 - Projecten zonder `url` tonen geen ↗-knop (geen dode links)
 - Extra archieflijst onder de featured projects, zodat alle projecten zichtbaar blijven
 - Letter-spacing uit Figma gelezen als percentage (3 → 0.03em)
+- Motion ingetogen, zonder dependency; geen scroll-voortgangslijn in de sticky register (bewust weggelaten)
+- clip-path animaties altijd met expliciete `inset()` eindwaarde — `none` interpoleert niet
 
 **Next session starts with:** dummy-projecten opruimen, `site.json` invullen, beelden, merge naar `main`
 

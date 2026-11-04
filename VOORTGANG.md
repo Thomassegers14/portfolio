@@ -13,6 +13,8 @@
 - Alle copy in `site.json`
 - 3D-viz, UnifiedViz, scrollytelling + deps (`d3`, `scrollama`, `3d-force-graph`) verwijderd; 3D bewaard op `feature/3d-force-graph` (labeltweak lokaal gecommit, niet gepusht)
 - Visueel gecheckt op 1440px en 390px
+- Volle-breedte hairlines, fixed masthead, sticky chapter registers
+- Motion "drukproef": openingssequentie (rule draw, headline line-mask, frame uncover), `v-reveal` directive (rule / frame / row), glyph-nudge hover; reduced-motion = statisch
 
 **Stopped at:**
 Re-skin staat, build groen. Nog niet gemerged naar `main`. Content bevat placeholders.

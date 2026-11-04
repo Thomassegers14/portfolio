@@ -17,7 +17,7 @@ const year = new Date().getFullYear()
         </h2>
         <a :href="`mailto:${site.email}`" class="contact__email">
           <span class="title-l">{{ site.email }}</span>
-          <span class="icon-btn" aria-hidden="true">↗</span>
+          <span class="icon-btn" aria-hidden="true"><span>↗</span></span>
         </a>
       </div>
 

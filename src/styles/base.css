@@ -192,3 +192,57 @@ img, svg {
 .status-dot {
   flex-shrink: 0;
 }
+
+/* ── Motion — "press proof": elements are set into place, never flung ────── */
+@keyframes rule-draw     { from { transform: scaleX(0); } }
+@keyframes fade-in       { from { opacity: 0; } }
+@keyframes line-rise     { from { transform: translateY(105%); } }
+/* clip-path can't interpolate to `none`, so both ends are explicit insets */
+@keyframes frame-uncover { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+
+/* Glyph nudge on ↗ / ↓ affordances */
+.btn > [aria-hidden],
+.icon-btn > span {
+  display: inline-block;
+  transition: transform var(--duration-feedback) var(--ease-out-expo);
+}
+
+.icon-btn--down { --nudge-x: 0px; --nudge-y: 2px; }
+
+@media (hover: hover) {
+  .btn:hover > [aria-hidden],
+  .icon-btn:hover > span,
+  a:hover > .icon-btn > span {
+    transform: translate(var(--nudge-x, 2px), var(--nudge-y, -2px));
+  }
+}
+
+/* Scroll reveals (v-reveal). The hidden state only exists when motion is
+   welcome, so reduced-motion users and failed scripts always see content. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-pending[data-reveal='rule']::before { transform: scaleX(0); }
+  .reveal-pending[data-reveal='rule'] > *,
+  .reveal-pending[data-reveal='frame'] > * { opacity: 0; }
+  .reveal-pending[data-reveal='frame'] { clip-path: inset(0 0 100% 0); }
+  .reveal-pending[data-reveal='row'] { opacity: 0; transform: translateY(6px); }
+
+  .reveal-run[data-reveal='rule']::before {
+    transform-origin: left;
+    transition: transform 900ms var(--ease-out-expo) var(--reveal-delay, 0ms);
+  }
+
+  .reveal-run[data-reveal='rule'] > *,
+  .reveal-run[data-reveal='frame'] > * {
+    transition: opacity 400ms var(--ease-out-expo) calc(var(--reveal-delay, 0ms) + 300ms);
+  }
+
+  .reveal-run[data-reveal='frame'] {
+    clip-path: inset(0 0 0 0);
+    transition: clip-path 900ms var(--ease-out-expo) var(--reveal-delay, 0ms);
+  }
+
+  .reveal-run[data-reveal='row'] {
+    transition: opacity 500ms var(--ease-out-expo) var(--reveal-delay, 0ms),
+                transform 500ms var(--ease-out-expo) var(--reveal-delay, 0ms);
+  }
+}

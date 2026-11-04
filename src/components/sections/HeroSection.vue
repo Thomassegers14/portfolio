@@ -16,8 +16,14 @@ const spotlight = projectById(site.hero.spotlightProjectId)
     </div>
 
     <div class="intro__hero">
-      <h1 class="headline headline--hero intro__headline">
-        <template v-for="(line, i) in site.hero.headline" :key="i">{{ line }}<br v-if="i < site.hero.headline.length - 1"></template>
+      <h1 class="headline headline--hero intro__headline" :aria-label="site.hero.headline.join(' ')">
+        <span
+          v-for="(line, i) in site.hero.headline"
+          :key="i"
+          class="intro__line"
+          :style="{ '--line': i }"
+          aria-hidden="true"
+        ><span>{{ line }}</span></span>
       </h1>
 
       <aside v-if="spotlight" class="intro__spotlight">
@@ -25,17 +31,17 @@ const spotlight = projectById(site.hero.spotlightProjectId)
           <span>Latest work / {{ spotlight.typeLabel }}</span>
           <span>{{ spotlight.ref }}</span>
         </div>
-        <ProjectFrame ratio="432 / 296" />
+        <ProjectFrame ratio="432 / 296" :reveal="false" />
         <div class="intro__caption-row">
           <span class="mono-data">{{ spotlight.title }} / {{ spotlight.year }}</span>
-          <a href="#work" class="icon-btn" :aria-label="`Go to ${spotlight.title}`">↗</a>
+          <a href="#work" class="icon-btn" :aria-label="`Go to ${spotlight.title}`"><span aria-hidden="true">↗</span></a>
         </div>
       </aside>
     </div>
 
     <div class="intro__note">
       <a href="#work" class="intro__invitation">
-        <span class="icon-btn" aria-hidden="true">↓</span>
+        <span class="icon-btn icon-btn--down" aria-hidden="true"><span>↓</span></span>
         <span class="label-m">Selected work below</span>
       </a>
       <p class="body-m text-secondary intro__description">{{ site.hero.intro }}</p>
@@ -105,6 +111,41 @@ const spotlight = projectById(site.hero.spotlightProjectId)
   display: flex;
   align-items: center;
   gap: var(--spacing-3);
+}
+
+/* ── Opening sequence ────────────────────────────────────────────────────
+   Masthead rule draws (NavBar) → headline is set line by line from a mask →
+   spotlight frame uncovers → registers and note settle in. ~1.1s total. */
+.intro__line {
+  display: block;
+  overflow: hidden;
+  /* Room for glyph overshoot inside the mask, without changing line spacing */
+  padding: 0.04em 0 0.08em;
+  margin: -0.04em 0 -0.08em;
+}
+
+.intro__line > span { display: block; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .intro__line > span {
+    animation: line-rise 800ms var(--ease-out-expo) calc(200ms + var(--line) * 90ms) both;
+  }
+
+  .intro__register {
+    animation: fade-in 500ms var(--ease-out-expo) 250ms both;
+  }
+
+  .intro__spotlight > .project-frame {
+    animation: frame-uncover 900ms var(--ease-out-expo) 400ms both;
+  }
+
+  .intro__caption-row {
+    animation: fade-in 500ms var(--ease-out-expo) 700ms both;
+  }
+
+  .intro__note {
+    animation: fade-in 600ms var(--ease-out-expo) 800ms both;
+  }
 }
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */

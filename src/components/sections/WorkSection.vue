@@ -2,6 +2,7 @@
 import site from '../../assets/data/site.json'
 import ChapterRegister from '../layout/ChapterRegister.vue'
 import ProjectFrame from '../ui/ProjectFrame.vue'
+import { vReveal } from '../../directives/reveal.js'
 import { featuredProjects, archiveProjects } from '../../utils/projects.js'
 
 const [lead, ...pair] = featuredProjects
@@ -56,7 +57,7 @@ const [lead, ...pair] = featuredProjects
               target="_blank"
               rel="noopener"
               :aria-label="`Open ${project.title}`"
-            >↗</a>
+            ><span aria-hidden="true">↗</span></a>
           </div>
           <p class="body-m text-secondary">{{ project.description }}</p>
         </div>
@@ -65,15 +66,15 @@ const [lead, ...pair] = featuredProjects
 
     <!-- ── Archive index ─────────────────────────────────────────────────── -->
     <div v-if="archiveProjects.length" class="work__archive">
-      <div class="work__row work__row--head mono-data text-tertiary">
+      <div v-reveal class="work__row work__row--head mono-data text-tertiary">
         <span>No.</span>
         <span>Project</span>
         <span class="work__col-type">Discipline</span>
         <span class="work__col-client">Client</span>
         <span class="work__col-year">Year</span>
       </div>
-      <div v-for="project in archiveProjects" :key="project.id" class="work__row">
-        <span class="mono-data text-secondary">{{ project.ref }}</span>
+      <div v-for="project in archiveProjects" :key="project.id" v-reveal class="work__row">
+        <span class="mono-data text-secondary work__ref">{{ project.ref }}</span>
         <span class="title-m">{{ project.title }}</span>
         <span class="mono-data text-secondary work__col-type">{{ project.typeLabel }}</span>
         <span class="body-s text-secondary work__col-client">{{ project.client }}</span>
@@ -177,6 +178,10 @@ const [lead, ...pair] = featuredProjects
 }
 
 .work__row:not(.work__row--head):hover { background: var(--color-bg-hover); }
+
+.work__ref { transition: color var(--duration-feedback) var(--easing-smooth); }
+
+.work__row:hover .work__ref { color: var(--color-text-primary); }
 
 .work__row--head {
   padding: var(--spacing-4) 0;

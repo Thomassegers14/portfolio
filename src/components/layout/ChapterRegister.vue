@@ -1,4 +1,6 @@
 <script setup>
+import { vReveal } from '../../directives/reveal.js'
+
 defineProps({
   label: { type: String, required: true },
   note:  { type: String, default: '' },
@@ -6,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <header class="chapter-register rule-top">
+  <header v-reveal="'rule'" class="chapter-register rule-top">
     <h2 class="label-m">{{ label }}</h2>
     <p v-if="note" class="mono-data text-secondary">{{ note }}</p>
   </header>

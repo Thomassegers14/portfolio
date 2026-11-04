@@ -1,16 +1,19 @@
 <script setup>
 // Image slot for a project. Until real imagery exists it renders the Studio
 // Mono grid scaffold; pass `src` to show a photograph instead.
+import { vReveal } from '../../directives/reveal.js'
+
 defineProps({
   badge: { type: String, default: '' },
   src:   { type: String, default: '' },
   alt:   { type: String, default: '' },
   ratio: { type: String, default: '4 / 3' },
+  reveal: { type: Boolean, default: true },
 })
 </script>
 
 <template>
-  <figure class="project-frame" :style="{ aspectRatio: ratio }">
+  <figure v-reveal="reveal ? 'frame' : null" class="project-frame" :style="{ aspectRatio: ratio }">
     <img v-if="src" :src="src" :alt="alt" class="project-frame__img">
     <span v-else class="project-frame__pending mono-data text-tertiary">Image pending</span>
     <span v-if="badge" class="badge project-frame__badge">{{ badge }}</span>
