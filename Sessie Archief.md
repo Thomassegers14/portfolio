@@ -271,8 +271,9 @@ Chronological log of all work sessions.
 - Motion ingetogen, zonder dependency; geen scroll-voortgangslijn in de sticky register (bewust weggelaten)
 - clip-path animaties altijd met expliciete `inset()` eindwaarde — `none` interpoleert niet
 - Gather zelf niet gebruikt: Lite heeft geen export en werkt op beelden; eigen canvas-implementatie, geen code overgenomen
-- In rust de echte h1 tonen; deeltjes alleen zichtbaar wanneer verplaatst (crisp typografie blijft)
-- Trackers voorlopig abstracte coördinaten; echte data later
+- Drift en trackers weer verwijderd (te afleidend); cursor-splash herwerkt: tekst wordt in ±2px tegels op device-resolutie gehakt die zelf het lettermateriaal dragen — geen CSS-mask meer, kracht volgt de cursorrichting met Gaussische falloff en per-tegel massa/veer
+- Woorden apart positioneren volgens DOM Range: canvas en DOM verschillen in spatiebreedte
+- Loop slaapt zodra alles in rust is
 
 **Next session starts with:** dummy-projecten opruimen, `site.json` invullen, beelden, merge naar `main`
 

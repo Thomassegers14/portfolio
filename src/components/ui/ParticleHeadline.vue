@@ -1,9 +1,9 @@
 <script setup>
-// Particle rendition of the hero headline. The real <h1> stays the source of
-// truth (layout, a11y, fallback); a canvas samples its rendered glyphs and adds
-// four behaviours on top: an intro gather, a cursor splash, a drift stream off
-// the right edge, and mono trackers riding that stream. At rest the crisp text
-// shows — particles only become visible while they are displaced.
+// Particle rendition of the hero headline. The real <h1> stays in the DOM for
+// layout, a11y and fallback; a canvas renders the same glyphs at device
+// resolution and cuts them into tiny tiles. At rest the tiles rebuild the text
+// pixel for pixel; on load they gather from a smear, and the pointer brushes
+// them aside like grain — each tile carries its own piece of letterform.
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps({
@@ -17,45 +17,29 @@ const canvasEl = ref(null)
 // The canvas only runs when motion is welcome; otherwise the static h1 remains
 const enabled = typeof window !== 'undefined'
   && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-const textHidden = ref(enabled) // h1 stays invisible until the gather hands over
+const textHidden = ref(enabled) // canvas draws the text while it is active
 
 // ── Tuning ────────────────────────────────────────────────────────────────
-const PAD            = 120   // canvas bleed above/below the headline (px)
-const INTRO_DELAY    = 200   // ms, lines up with the masthead rule
-const INTRO_HOLD     = 1500  // ms until the crisp text takes over
-const HANDOVER_MS    = 400
-const SPRING         = 0.045
-const DAMPING        = 0.86
-const VISIBLE_AT     = 8     // px of displacement at which a particle is fully visible
-const SPLASH_FORCE   = 5.5
-const TRACKER_TICK   = 140   // ms between tracker label updates
-const LABEL_W        = 170   // px reserved for a tracker label
-const LABEL_H        = 18    // px of vertical clearance between labels
+const PAD         = 80     // canvas bleed around the headline (css px)
+const INTRO_DELAY = 200    // ms, lines up with the masthead rule
+const INTRO_SPAN  = 560    // ms of left → right stagger in the gather
+const DAMPING     = 0.88
+const REST_EPS    = 0.35   // device px; closer than this snaps home
+const RADIAL      = 1.6    // push away from the pointer
+const WAKE        = 0.42   // push along the pointer's direction of travel
+const MAX_SPEED   = 28     // device px per frame
 
-let ctx, raf, io, ro, resizeTimer
-let W = 0, H = 0, dpr = 1, color = '#f1f2ef'
-let running = false, inView = true, lastT = 0, startT = 0
-let introAlpha = 1, introDone = false
+let ctx, layer, raf, io, ro, resizeTimer
+let W = 0, H = 0, dpr = 1, tile = 2
+let running = false, inView = true, lastT = 0, startT = 0, introDone = false
 
-// Glyph particles (structure of arrays)
-let n = 0, hx, hy, px, py, vx, vy, pa, delay
-let textLeft = 0, textRight = 0, textTop = 0, textBottom = 0
-let edgeCandidates = new Int32Array(0)
+// Tiles (structure of arrays, device px)
+let n = 0, hx, hy, px, py, vx, vy, mass, spring, delay
+let textLeft = 0, textRight = 0
 
-// Drift pool
-const DRIFT_MAX = 600
-const dx = new Float32Array(DRIFT_MAX), dy = new Float32Array(DRIFT_MAX)
-const dvx = new Float32Array(DRIFT_MAX), dvy = new Float32Array(DRIFT_MAX)
-const dLife = new Float32Array(DRIFT_MAX), dMax = new Float32Array(DRIFT_MAX)
-const dA = new Float32Array(DRIFT_MAX)
-let driftCursor = 0, spawnDebt = 0
-
-// Trackers ride drift particles
-let trackers = []
-
-// Pointer + cursor hole in the real text
-const pointer = { x: -1e4, y: -1e4, active: false }
-let holeR = 0, radius = 90
+// Pointer in canvas device px, with smoothed velocity
+const pointer = { x: -1e5, y: -1e5, vx: 0, vy: 0, t: 0, near: false }
+let reach = 0 // influence radius, device px
 
 const isSmall = () => window.innerWidth < 640
 
@@ -65,29 +49,29 @@ function sample({ intro }) {
   const rootRect = root.getBoundingClientRect()
   const style = getComputedStyle(h1)
 
-  W = document.documentElement.clientWidth
-  H = Math.ceil(rootRect.height + PAD * 2)
   dpr = Math.min(window.devicePixelRatio || 1, 2)
-  color = style.color
+  const cssW = rootRect.width + PAD * 2
+  const cssH = rootRect.height + PAD * 2
+  W = Math.round(cssW * dpr)
+  H = Math.round(cssH * dpr)
 
-  // Canvas spans the viewport width so the drift can travel to the edge
-  canvas.style.left   = `${-rootRect.left}px`
+  canvas.style.left   = `${-PAD}px`
   canvas.style.top    = `${-PAD}px`
-  canvas.style.width  = `${W}px`
-  canvas.style.height = `${H}px`
-  canvas.width  = Math.round(W * dpr)
-  canvas.height = Math.round(H * dpr)
+  canvas.style.width  = `${cssW}px`
+  canvas.style.height = `${cssH}px`
+  canvas.width = W
+  canvas.height = H
   ctx = canvas.getContext('2d')
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
-  // Draw the headline exactly where the DOM renders it, at 1 css px resolution
-  const off = document.createElement('canvas')
-  off.width = W; off.height = H
-  const o = off.getContext('2d', { willReadFrequently: true })
+  // Render the headline exactly where the DOM puts it, at device resolution
+  layer = document.createElement('canvas')
+  layer.width = W; layer.height = H
+  const o = layer.getContext('2d', { willReadFrequently: true })
+  o.scale(dpr, dpr)
   const fontSize = parseFloat(style.fontSize)
   o.font = `${style.fontWeight} ${fontSize}px ${style.fontFamily}`
   if ('letterSpacing' in o) o.letterSpacing = style.letterSpacing
-  o.fillStyle = '#fff'
+  o.fillStyle = style.color
   o.textBaseline = 'alphabetic'
 
   const m = o.measureText('M')
@@ -95,303 +79,206 @@ function sample({ intro }) {
   const desc = m.fontBoundingBoxDescent ?? fontSize * 0.2
   const upper = style.textTransform === 'uppercase'
 
-  textLeft = Infinity; textRight = -Infinity; textTop = Infinity; textBottom = -Infinity
-  const lineBoxes = []
+  textLeft = Infinity; textRight = -Infinity
   for (const span of h1.querySelectorAll('.particle-headline__line > span')) {
     const r = span.getBoundingClientRect()
-    const x = r.left
+    const x = r.left - rootRect.left + PAD
     const top = r.top - rootRect.top + PAD
     const baseline = top + (r.height - (asc + desc)) / 2 + asc
-    const text = upper ? span.textContent.toUpperCase() : span.textContent
-    o.fillText(text, x, baseline)
-    const width = o.measureText(text).width
-    lineBoxes.push({ left: x, right: x + width })
-    textLeft = Math.min(textLeft, x); textRight = Math.max(textRight, x + width)
-    textTop = Math.min(textTop, top); textBottom = Math.max(textBottom, top + r.height)
+    // Canvas and DOM disagree slightly on word spaces, so each word is placed
+    // at the x the browser actually renders it
+    const node = span.firstChild
+    const range = document.createRange()
+    for (const match of span.textContent.matchAll(/\S+/g)) {
+      range.setStart(node, match.index)
+      range.setEnd(node, match.index + match[0].length)
+      const wx = range.getBoundingClientRect().left - rootRect.left + PAD
+      const word = upper ? match[0].toUpperCase() : match[0]
+      o.fillText(word, wx, baseline)
+      textRight = Math.max(textRight, (wx + o.measureText(word).width) * dpr)
+    }
+    textLeft = Math.min(textLeft, x * dpr)
   }
 
+  // Tile size in whole device px, chosen to stay within the particle budget
   const data = o.getImageData(0, 0, W, H).data
-
-  // Pick a sampling step that keeps the particle count within budget
-  const budget = isSmall() ? 5000 : 12000
   let ink = 0
-  for (let i = 3; i < data.length; i += 16) if (data[i] > 60) ink++
-  ink *= 4
-  const step = Math.max(1.5, Math.sqrt(ink / budget))
+  for (let i = 3; i < data.length; i += 4) if (data[i] > 8) ink++
+  const budget = isSmall() ? 6000 : 16000
+  tile = Math.max(Math.round(1.5 * dpr), Math.ceil(Math.sqrt(ink / budget)))
 
-  const xs = [], ys = [], as = []
-  for (let y = 0; y < H; y += step) {
-    for (let x = 0; x < W; x += step) {
-      const jx = x + (Math.random() - 0.5) * step * 0.6
-      const jy = y + (Math.random() - 0.5) * step * 0.6
-      const a = data[((Math.round(jy) * W + Math.round(jx)) << 2) + 3]
-      if (a > 60) { xs.push(jx); ys.push(jy); as.push(a / 255) }
+  const xs = [], ys = []
+  for (let ty = 0; ty < H; ty += tile) {
+    for (let tx = 0; tx < W; tx += tile) {
+      let hit = false
+      for (let y = ty; y < Math.min(ty + tile, H) && !hit; y++) {
+        for (let x = tx; x < Math.min(tx + tile, W); x++) {
+          if (data[((y * W + x) << 2) + 3] > 8) { hit = true; break }
+        }
+      }
+      if (hit) { xs.push(tx); ys.push(ty) }
     }
   }
 
   n = xs.length
-  hx = Float32Array.from(xs); hy = Float32Array.from(ys); pa = Float32Array.from(as)
-  px = new Float32Array(n); py = new Float32Array(n)
-  vx = new Float32Array(n); vy = new Float32Array(n); delay = new Float32Array(n)
+  hx = Float32Array.from(xs); hy = Float32Array.from(ys)
+  px = Float32Array.from(xs); py = Float32Array.from(ys)
+  vx = new Float32Array(n); vy = new Float32Array(n)
+  mass = new Float32Array(n); spring = new Float32Array(n); delay = new Float32Array(n)
 
   const span = Math.max(1, textRight - textLeft)
-  const edges = []
   for (let i = 0; i < n; i++) {
+    mass[i]   = 0.6 + Math.random() * 0.9
+    spring[i] = 0.028 + Math.random() * 0.04
     if (intro) {
-      // Smeared to the right with some vertical shear, gathering left → right
+      // Smeared to the right with a little shear; gathers left → right
       const r = Math.random()
-      px[i] = hx[i] + r * r * r * span * 0.6 + (Math.random() - 0.5) * 24
-      py[i] = hy[i] + (Math.random() - 0.5) * 40 * r
-      delay[i] = ((hx[i] - textLeft) / span) * 520 + Math.random() * 160
-    } else {
-      px[i] = hx[i]; py[i] = hy[i]
+      px[i] = hx[i] + r * r * r * span * 0.55 + (Math.random() - 0.5) * 20 * dpr
+      py[i] = hy[i] + (Math.random() - 0.5) * 36 * dpr * r
+      delay[i] = ((hx[i] - textLeft) / span) * INTRO_SPAN + Math.random() * 160
     }
-    // Drift is emitted from the trailing third of each line
-    const line = lineBoxes.find(l => hx[i] >= l.left - 2 && hx[i] <= l.right + 2)
-    if (line && hx[i] > line.left + (line.right - line.left) * 0.66) edges.push(i)
   }
-  edgeCandidates = Int32Array.from(edges)
-  radius = isSmall() ? 64 : 90
-  trackers = Array.from({ length: isSmall() ? 3 : 7 }, (_, i) => ({ id: i + 1, p: -1, label: '', next: 0 }))
+
+  introDone = !intro
+  reach = (isSmall() ? 60 : 85) * dpr
 }
 
 // ── Simulation ────────────────────────────────────────────────────────────
-function spawnDrift(count) {
-  if (!edgeCandidates.length) return
-  for (let k = 0; k < count; k++) {
-    const i = edgeCandidates[(Math.random() * edgeCandidates.length) | 0]
-    const d = driftCursor
-    driftCursor = (driftCursor + 1) % DRIFT_MAX
-    dx[d] = hx[i]; dy[d] = hy[i]
-    dvx[d] = 0.35 + Math.random() * 1.4
-    dvy[d] = (Math.random() - 0.5) * 0.35
-    dLife[d] = 0
-    dMax[d] = 1800 + Math.random() * 3200
-    dA[d] = pa[i]
-  }
-}
-
+// Returns whether anything is still moving
 function step(t) {
   const dt = Math.min(50, t - lastT || 16.7)
   lastT = t
   const f = dt / 16.7
   const elapsed = t - startT
-
-  // Hand the headline over from particles to crisp text after the gather
-  if (!introDone && elapsed > INTRO_DELAY + INTRO_HOLD) {
-    introDone = true
-    textHidden.value = false
-  }
-  if (introDone && introAlpha > 0) introAlpha = Math.max(0, introAlpha - dt / HANDOVER_MS)
-
-  // Glyph particles: spring home, scatter around the pointer
-  const R = radius, R2 = R * R
-  const near = pointer.active
   const damp = Math.pow(DAMPING, f)
+
+  // Pointer velocity fades when the pointer rests
+  pointer.vx *= Math.pow(0.82, f)
+  pointer.vy *= Math.pow(0.82, f)
+  const speed = Math.hypot(pointer.vx, pointer.vy)
+  const stir = pointer.near
+  const sigma2 = 2 * (reach * 0.5) ** 2
+  const cut2 = reach * reach * 2.25
+
+  let moving = false
   for (let i = 0; i < n; i++) {
-    if (elapsed < INTRO_DELAY + delay[i]) continue
-    let ax = (hx[i] - px[i]) * SPRING
-    let ay = (hy[i] - py[i]) * SPRING
-    if (near) {
+    if (elapsed < INTRO_DELAY + delay[i]) { moving = true; continue }
+
+    let ax = (hx[i] - px[i]) * spring[i]
+    let ay = (hy[i] - py[i]) * spring[i]
+
+    if (stir) {
       const ox = px[i] - pointer.x, oy = py[i] - pointer.y
       const d2 = ox * ox + oy * oy
-      if (d2 < R2 && d2 > 0.01) {
-        const d = Math.sqrt(d2)
-        const s = (1 - d / R) ** 2 * SPLASH_FORCE
-        ax += (ox / d) * s + (Math.random() - 0.5) * s * 0.8
-        ay += (oy / d) * s - Math.random() * s * 0.5
+      if (d2 < cut2) {
+        // Gaussian falloff: a soft brush, never a hard circle
+        const w = Math.exp(-d2 / sigma2) / mass[i]
+        const d = Math.sqrt(d2) || 1
+        const lift = RADIAL * (0.25 + Math.min(1, speed / 12))
+        ax += w * ((ox / d) * lift + pointer.vx * WAKE + (Math.random() - 0.5) * 1.4)
+        ay += w * ((oy / d) * lift + pointer.vy * WAKE + (Math.random() - 0.5) * 1.4)
       }
     }
+
     vx[i] = (vx[i] + ax * f) * damp
     vy[i] = (vy[i] + ay * f) * damp
+    const sp = Math.abs(vx[i]) + Math.abs(vy[i])
+    if (sp > MAX_SPEED) { vx[i] *= MAX_SPEED / sp; vy[i] *= MAX_SPEED / sp }
     px[i] += vx[i] * f
     py[i] += vy[i] * f
-  }
 
-  // Drift stream, a little denser while the pointer stirs the text
-  if (introDone || elapsed > INTRO_DELAY + 600) {
-    spawnDebt += (dt / 1000) * (isSmall() ? 60 : 130) * (near ? 1.6 : 1)
-    const whole = spawnDebt | 0
-    spawnDebt -= whole
-    spawnDrift(whole)
-  }
-  for (let d = 0; d < DRIFT_MAX; d++) {
-    if (dLife[d] >= dMax[d]) continue
-    dLife[d] += dt
-    dvy[d] += Math.sin(t * 0.0012 + dx[d] * 0.012) * 0.006 * f
-    dx[d] += dvx[d] * f
-    dy[d] += dvy[d] * f
-  }
-
-  // Cursor hole in the crisp text follows the splash
-  const target = near ? R * 0.8 : 0
-  holeR += (target - holeR) * Math.min(1, 0.12 * f)
-  applyHole()
-
-  updateTrackers(t)
-}
-
-function updateTrackers(t) {
-  trackers.forEach((tr, idx) => {
-    // Drifting particles can converge; the later tracker yields
-    const alive = tr.p >= 0 && dLife[tr.p] < dMax[tr.p] * 0.85 && dx[tr.p] + LABEL_W < W
-      && hasRoom(tr.p, tr, trackers.slice(0, idx))
-    if (!alive) {
-      // Bind to a drift particle that has travelled clear of the letters
-      tr.p = -1
-      for (let tries = 0; tries < 32; tries++) {
-        const d = (Math.random() * DRIFT_MAX) | 0
-        if (dLife[d] < dMax[d] * 0.5 && dx[d] > textRight + 30 && dx[d] + LABEL_W < W && hasRoom(d, tr)) { tr.p = d; break }
-      }
-      tr.next = 0
+    const ox = px[i] - hx[i], oy = py[i] - hy[i]
+    if (Math.abs(ox) + Math.abs(oy) < REST_EPS && sp < 0.05) {
+      px[i] = hx[i]; py[i] = hy[i]; vx[i] = 0; vy[i] = 0
+    } else {
+      moving = true
     }
-    if (tr.p >= 0 && t >= tr.next) {
-      const d = tr.p
-      const fmt = v => (v < 0 ? '−' : '+') + Math.abs(v).toFixed(2)
-      const nx = (dx[d] - textRight) / Math.max(1, W - textRight)
-      const ny = (dy[d] - (textTop + textBottom) / 2) / Math.max(1, textBottom - textTop)
-      tr.label = `${String(tr.id).padStart(2, '0')}  ${fmt(nx)} ${fmt(ny)} ${fmt(dvx[d] / 2)}`
-      tr.next = t + TRACKER_TICK
-    }
-  })
-}
-
-// A tracker needs clearance so labels never stack on top of each other
-function hasRoom(d, self, others = trackers) {
-  return others.every(o => {
-    if (o === self || o.p < 0) return true
-    const ox = Math.abs(dx[o.p] - dx[d]), oy = Math.abs(dy[o.p] - dy[d])
-    return !(ox < LABEL_W && oy < LABEL_H) && ox * ox + oy * oy > 56 * 56
-  })
-}
-
-function applyHole() {
-  const h1 = h1El.value
-  if (holeR < 1) {
-    if (h1.style.maskImage) { h1.style.maskImage = ''; h1.style.webkitMaskImage = '' }
-    return
   }
-  // Pointer is in canvas space; the canvas starts at viewport x = 0, PAD above the root
-  const r = h1.getBoundingClientRect(), root = rootEl.value.getBoundingClientRect()
-  const cx = pointer.x - r.left
-  const cy = pointer.y + root.top - PAD - r.top
-  const mask = `radial-gradient(circle at ${cx}px ${cy}px, transparent ${holeR * 0.55}px, #000 ${holeR}px)`
-  h1.style.maskImage = mask
-  h1.style.webkitMaskImage = mask
+
+  if (!introDone && !moving) introDone = true
+  return moving || stir
 }
 
 // ── Rendering ─────────────────────────────────────────────────────────────
-const BUCKETS = 5
-const bucketLists = Array.from({ length: BUCKETS }, () => [])
-
 function draw() {
   ctx.clearRect(0, 0, W, H)
-  ctx.fillStyle = color
 
-  for (const list of bucketLists) list.length = 0
-  for (let i = 0; i < n; i++) {
-    const ox = px[i] - hx[i], oy = py[i] - hy[i]
-    const disp = Math.abs(ox) + Math.abs(oy)
-    const vis = Math.max(introAlpha, Math.min(1, disp / VISIBLE_AT))
-    const a = pa[i] * vis
-    if (a < 0.04) continue
-    bucketLists[Math.min(BUCKETS - 1, (a * BUCKETS) | 0)].push(i)
-  }
-  const size = 1.15
-  for (let b = 0; b < BUCKETS; b++) {
-    const list = bucketLists[b]
-    if (!list.length) continue
-    ctx.globalAlpha = (b + 1) / BUCKETS
-    for (const i of list) ctx.fillRect(px[i], py[i], size, size)
-  }
-
-  // Drift
-  for (let d = 0; d < DRIFT_MAX; d++) {
-    if (dLife[d] >= dMax[d]) continue
-    const life = dLife[d] / dMax[d]
-    const a = dA[d] * (1 - life) ** 1.5 * 0.85
-    if (a < 0.03) continue
-    ctx.globalAlpha = a
-    ctx.fillRect(dx[d], dy[d], 1.1, 1.1)
-  }
-
-  drawTrackers()
-  ctx.globalAlpha = 1
-}
-
-function drawTrackers() {
-  const live = trackers.filter(tr => tr.p >= 0)
-  if (!live.length) return
-  ctx.lineWidth = 1
-
-  // Hairline links between consecutive trackers
-  ctx.globalAlpha = 0.18
-  ctx.strokeStyle = color
-  ctx.beginPath()
-  live.forEach((tr, i) => {
-    const x = dx[tr.p], y = dy[tr.p]
-    i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)
-  })
-  ctx.stroke()
-
-  ctx.font = '400 10px "Geist Mono", ui-monospace, monospace'
-  if ('letterSpacing' in ctx) ctx.letterSpacing = '0.4px'
-  ctx.textBaseline = 'middle'
-  for (const tr of live) {
-    const d = tr.p
-    const fade = Math.min(1, (1 - dLife[d] / dMax[d]) * 2.2) * Math.min(1, dLife[d] / 300)
-    const x = Math.round(dx[d]) + 0.5, y = Math.round(dy[d]) + 0.5
-    const s = 6, c = 3
-    ctx.globalAlpha = 0.72 * fade
-    ctx.beginPath()
-    // Corner brackets around the tracked particle
-    for (const [sx, sy] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) {
-      ctx.moveTo(x + sx * s, y + sy * (s - c))
-      ctx.lineTo(x + sx * s, y + sy * s)
-      ctx.lineTo(x + sx * (s - c), y + sy * s)
+  // Settled tiles are the text itself; punch out the ones in flight
+  if (introDone) {
+    ctx.drawImage(layer, 0, 0)
+    for (let i = 0; i < n; i++) {
+      if (px[i] !== hx[i] || py[i] !== hy[i]) ctx.clearRect(hx[i], hy[i], tile, tile)
     }
-    ctx.stroke()
-    ctx.globalAlpha = 0.6 * fade
-    ctx.fillText(tr.label, x + s + 6, y)
   }
+
+  for (let i = 0; i < n; i++) {
+    const at = px[i] === hx[i] && py[i] === hy[i]
+    if (introDone && at) continue
+    // Grain thins out slightly the further it is carried
+    const disp = Math.abs(px[i] - hx[i]) + Math.abs(py[i] - hy[i])
+    ctx.globalAlpha = 1 - Math.min(0.55, disp / (220 * dpr))
+    ctx.drawImage(layer, hx[i], hy[i], tile, tile, px[i], py[i], tile, tile)
+  }
+  ctx.globalAlpha = 1
 }
 
 // ── Loop & lifecycle ──────────────────────────────────────────────────────
 function frame(t) {
   if (!running) return
-  step(t)
+  const busy = step(t)
   draw()
+  // Sleep once everything has settled; the pointer wakes the loop again
+  if (busy) raf = requestAnimationFrame(frame)
+  else running = false
+}
+
+function wake() {
+  if (running || !inView || document.hidden || !ctx) return
+  running = true
+  lastT = performance.now()
   raf = requestAnimationFrame(frame)
 }
 
-function setRunning(next) {
-  if (next === running) return
-  running = next
-  if (running) { lastT = performance.now(); raf = requestAnimationFrame(frame) }
-  else cancelAnimationFrame(raf)
+function sleep() {
+  running = false
+  cancelAnimationFrame(raf)
 }
 
-const syncRunning = () => setRunning(inView && !document.hidden)
+const syncVisibility = () => (inView && !document.hidden ? wake() : sleep())
 
 function onPointerMove(e) {
+  if (!ctx) return
   const c = canvasEl.value.getBoundingClientRect()
-  pointer.x = e.clientX - c.left
-  pointer.y = e.clientY - c.top
-  // Only stir when the pointer is near the letters
-  pointer.active = pointer.x > textLeft - radius && pointer.x < textRight + radius
-    && pointer.y > textTop - radius && pointer.y < textBottom + radius
+  const x = (e.clientX - c.left) * dpr
+  const y = (e.clientY - c.top) * dpr
+  const now = performance.now()
+  const dt = Math.max(8, now - pointer.t)
+  if (pointer.t && now - pointer.t < 100) {
+    // Smoothed velocity in device px per frame
+    pointer.vx = pointer.vx * 0.5 + ((x - pointer.x) / dt) * 16.7 * 0.5
+    pointer.vy = pointer.vy * 0.5 + ((y - pointer.y) / dt) * 16.7 * 0.5
+  }
+  pointer.x = x; pointer.y = y; pointer.t = now
+  pointer.near = x > textLeft - reach && x < textRight + reach && y > 0 && y < H
+  if (pointer.near) wake()
 }
 
-function onPointerLeave() { pointer.active = false }
+function onPointerLeave() {
+  pointer.near = false
+}
 
 function onResize() {
   clearTimeout(resizeTimer)
-  resizeTimer = setTimeout(() => { if (ctx) sample({ intro: false }) }, 150)
+  resizeTimer = setTimeout(() => {
+    if (!ctx) return
+    sample({ intro: false })
+    draw()
+  }, 150)
 }
 
 function fail() {
   textHidden.value = false
-  setRunning(false)
+  sleep()
 }
 
 onMounted(async () => {
@@ -400,22 +287,20 @@ onMounted(async () => {
   const safety = setTimeout(fail, 3000)
   try {
     const size = parseFloat(getComputedStyle(h1El.value).fontSize)
-    await Promise.all([
-      document.fonts.load(`500 ${size}px Newsreader`),
-      document.fonts.load('400 10px "Geist Mono"'),
-    ])
+    await document.fonts.load(`500 ${size}px Newsreader`)
     clearTimeout(safety)
     sample({ intro: true })
+    draw()
     startT = performance.now()
 
-    io = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; syncRunning() })
+    io = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; syncVisibility() })
     io.observe(rootEl.value)
     ro = new ResizeObserver(onResize)
     ro.observe(rootEl.value)
-    document.addEventListener('visibilitychange', syncRunning)
+    document.addEventListener('visibilitychange', syncVisibility)
     window.addEventListener('pointermove', onPointerMove, { passive: true })
     document.documentElement.addEventListener('pointerleave', onPointerLeave)
-    syncRunning()
+    wake()
   } catch {
     clearTimeout(safety)
     fail()
@@ -423,11 +308,11 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  setRunning(false)
+  sleep()
   clearTimeout(resizeTimer)
   io?.disconnect()
   ro?.disconnect()
-  document.removeEventListener('visibilitychange', syncRunning)
+  document.removeEventListener('visibilitychange', syncVisibility)
   window.removeEventListener('pointermove', onPointerMove)
   document.documentElement.removeEventListener('pointerleave', onPointerLeave)
 })
@@ -457,17 +342,13 @@ onUnmounted(() => {
   position: relative;
 }
 
-.particle-headline__text {
-  transition: opacity 400ms var(--ease-out-expo);
-}
-
 .particle-headline__text.is-hidden { opacity: 0; }
 
 .particle-headline__line { display: block; }
 
 .particle-headline__canvas {
   position: absolute;
-  z-index: 2; /* drift and trackers pass over the spotlight frame */
+  z-index: 1;
   pointer-events: none;
 }
 </style>
